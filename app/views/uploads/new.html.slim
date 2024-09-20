@@ -1,0 +1,6 @@
+.container
+  .row
+    .col-md-6
+      = simple_form_for @form, url: uploads_path do |f|
+        = f.input :image, as: :file
+        = f.submit 'Create', class: 'btn btn-primary'

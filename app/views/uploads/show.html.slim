@@ -1,0 +1,2 @@
+- if @recipe.image.representable?
+  = image_tag @recipe.image.representation(resize_to_limit: [100, 100])
