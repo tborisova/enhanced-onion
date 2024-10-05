@@ -1,24 +1,22 @@
-# README
+### Enhanced onion
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the backend for enhanced curry
 
-Things you may want to cover:
+### Run
 
-* Ruby version
+```
+bundle install
 
-* System dependencies
+bin/rake db:migrate # runs migrations
 
-* Configuration
+bin/rake db:seed # runs seeds
 
-* Database creation
+```
 
-* Database initialization
+### Start
 
-* How to run the test suite
+To start the application so that the mobile app can make queries, use:
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+bin/rails s -b 0.0.0.0
+```
