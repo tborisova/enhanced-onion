@@ -1,10 +1,18 @@
 class UploadsController < ApplicationController
+  protect_from_forgery with: :null_session
+
   def create
     @form = UploadForm.new image: params[:upload_form][:image]
 
     r = @form.execute
+  end
 
-    redirect_to upload_path(id: r.id)
+  def upload
+    r = TemporaryRecipeImage.create!
+
+    r.image.attach(io: params[:file], filename: params[:file].original_filename)
+
+    return render json: {id: r.id}
   end
 
   def show
