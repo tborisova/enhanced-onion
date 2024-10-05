@@ -6,6 +6,7 @@ module Mutations
     argument :photo_id, String, required: false
     argument :ingredients, [Types::RecipeIngredientInputType], required: false
     argument :categories, [String], required: true
+    argument :dietary_preference, String, required: true
 
     field :recipe, Types::RecipeType
 
