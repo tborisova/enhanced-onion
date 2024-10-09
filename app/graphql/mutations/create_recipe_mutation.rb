@@ -14,7 +14,8 @@ module Mutations
       recipe =
         Recipe.create!(
           title: input[:title],
-          user: User.last
+          user: User.last,
+          description: input[:description]
         )
 
       if input[:url]
