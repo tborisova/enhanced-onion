@@ -19,8 +19,29 @@ module Types
     end
 
 
-    field :recipes, Types::RecipeType.connection_type, null: false
-    def recipes = Recipe.all
+    field :recipes, Types::RecipeType.connection_type, null: false do
+      argument :category, String, required: false
+      argument :term, String, required: false
+      argument :dietary_preference, String, required: false
+    end
+
+    def recipes(term: nil, category: nil, dietary_preference: nil)
+      scope = Recipe.joins(:categories)
+
+      if term.present?
+        scope = scope.where("title LIKE '%#{term}%'")
+      end
+
+      if category.present?
+        scope = scope.where(categories: {name: category})
+      end
+
+      if dietary_preference.present?
+        scope = scope.where(dietary_preferences: {name: category})
+      end
+
+      scope
+    end
 
     field :categories, Types::CategoryType.connection_type, null: false
     def categories = Category.all
