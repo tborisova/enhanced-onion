@@ -73,3 +73,6 @@ end
 
 gem "graphql", "~> 2.3"
 gem "graphiql-rails", group: :development
+
+gem 'devise'
+gem 'devise-jwt'

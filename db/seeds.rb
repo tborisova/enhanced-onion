@@ -22,6 +22,6 @@ end
 end
 
 
-u1 = User.create! name: 'Llama'
-u2 = User.create! name: 'Test'
+u1 = User.create! name: 'Llama', email: 'llama@example.com'
+u2 = User.create! name: 'Test', email: 'test@example.com'
 
