@@ -14,7 +14,7 @@ module Mutations
       recipe =
         Recipe.create!(
           title: input[:title],
-          user: User.last,
+          user: context[:current_user],
           description: input[:description]
         )
 

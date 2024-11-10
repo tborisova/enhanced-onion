@@ -26,7 +26,7 @@ module Types
     end
 
     def recipes(term: nil, category: nil, dietary_preference: nil)
-      scope = Recipe.joins(:categories)
+      scope = Recipe.joins(:categories).where(user: context[:current_user])
 
       if term.present?
         scope = scope.where("title LIKE '%#{term}%'")
@@ -49,6 +49,12 @@ module Types
     field :recipe, Types::RecipeType, null: true do
       argument :id, ID, required: true
     end
-    def recipe(id:) = GlobalID::Locator.locate(id)
+    def recipe(id:)
+      recipe = GlobalID::Locator.locate(id)
+
+      return nil unless recipe.user == context[:current_user]
+
+      recipe
+    end
   end
 end
