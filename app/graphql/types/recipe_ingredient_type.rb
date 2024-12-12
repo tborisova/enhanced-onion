@@ -9,10 +9,12 @@ module Types
     end
 
     def name
-      dataloader.
+      result = dataloader.
         with(::Sources::ActiveRecordSource, Ingredient, :id).
-        request(object.ingredient_id).
-        load(first.name)
+        request(object.ingredient_id)
+
+
+      result.load.first.name
     end
   end
 end

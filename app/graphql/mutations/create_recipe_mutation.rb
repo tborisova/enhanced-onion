@@ -36,6 +36,23 @@ module Mutations
 
       recipe.categories << Category.where(name: input[:categories])
 
+      ingredient_names = input[:ingredients].map { _1[:name] }
+      known_ingredients = Ingredient.where(name: ingredient_names).select('id, name')
+      missing = ingredient_names - known_ingredients.pluck(:name)
+      ingredients = known_ingredients.index_by(&:name).transform_values { _1.id }
+
+      if missing.present?
+        result = Ingredient.insert_all missing.map {{name: _1}}, returning: %i(id name)
+        ingredients.merge result.rows.to_h.invert
+      end
+
+      to_insert = []
+      input[:ingredients].each do |row|
+        ingredient_id = ingredients[row[:name]]
+        to_insert << {recipe_id: recipe.id, ingredient_id: ingredient_id, quantity: row[:quantity] }
+      end
+
+      RecipeIngredient.insert_all to_insert
 
       {recipe:}
     end
