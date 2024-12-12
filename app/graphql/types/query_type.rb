@@ -26,7 +26,10 @@ module Types
     end
 
     def recipes(term: nil, category: nil, dietary_preference: nil)
-      scope = Recipe.joins(:categories).where(user: context[:current_user])
+      scope =
+        Recipe.
+          left_joins(:categories, :dietary_preferences).
+          where(user: context[:current_user])
 
       if term.present?
         scope = scope.where("title LIKE '%#{term}%'")
@@ -37,7 +40,7 @@ module Types
       end
 
       if dietary_preference.present?
-        scope = scope.where(dietary_preferences: {name: category})
+        scope = scope.where(dietary_preferences: {name: dietary_preference})
       end
 
       scope
