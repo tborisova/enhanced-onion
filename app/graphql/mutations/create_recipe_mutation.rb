@@ -27,16 +27,17 @@ module Mutations
         recipe.update description: input[:description]
       end
 
-      known_categories = Category.where(name: input[:categories]).pluck :name
-      missing = input[:categories] - known_categories
+      category_names =  input[:categories].map(&:downcase).map(&:strip)
+      known_categories = Category.where(name: category_names).pluck :name
+      missing = category_names - known_categories
 
       if missing.present?
         Category.insert_all missing.map {{name: _1}}
       end
 
-      recipe.categories << Category.where(name: input[:categories])
+      recipe.categories << Category.where(name: category_names)
 
-      ingredient_names = input[:ingredients].map { _1[:name] }
+      ingredient_names = input[:ingredients].map { _1[:name] }.map(&:downcase).map(&:strip)
       known_ingredients = Ingredient.where(name: ingredient_names).select('id, name')
       missing = ingredient_names - known_ingredients.pluck(:name)
       ingredients = known_ingredients.index_by(&:name).transform_values { _1.id }
