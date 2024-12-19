@@ -11,7 +11,7 @@ module Mutations
     field :recipe, Types::RecipeType, null: true
 
     def resolve(input)
-      recipe = CreateRecipe.execute input
+      recipe = CreateRecipe.execute input, context[:current_user]
 
       {recipe:}
     end
