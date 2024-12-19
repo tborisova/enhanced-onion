@@ -17,8 +17,6 @@ class UploadsController < ApplicationController
 
   def show
     @recipe = TemporaryRecipeImage.find params[:id]
-
-    p url_for(@recipe.image)
   end
 
   def new
