@@ -8,7 +8,7 @@ module Types
     field :categories, [RecipeCategoryType], null: false
     field :ingredients, [RecipeIngredientType], null: false
     field :dietary_preferences, Types::RecipeDietaryPreferenceType.connection_type, null: false
-    field :kind, String, null: false # enum
+    field :kind, RecipeKindType, null: false
 
     def id
       object.to_gid_param
@@ -34,11 +34,11 @@ module Types
 
     def kind
       if object.photo.present?
-        :photo
+        RecipeKindType.values["PHOTO"].value
       elsif object.url.present?
-        :url
+        RecipeKindType.values["URL"].value
       else
-        :manual
+        RecipeKindType.values["MANUAL"].value
       end
     end
   end
