@@ -15,15 +15,7 @@ module CreateRecipe
     end
 
     if arguments[:categories]
-      category_names =  arguments[:categories].map(&:downcase).map(&:strip)
-      known_categories = Category.where(name: category_names)
-      missing = category_names - known_categories.pluck(:name)
-      categories = known_categories.pluck(:id)
-
-      if missing.present?
-        result = Category.insert_all missing.map {{name: _1}}, returning: %i(id)
-        categories += result.rows.flatten
-      end
+      categories = Category.create_if_missing arguments[:categories].map(&:downcase).map(&:strip)
 
       to_insert = []
       categories.each do |id|

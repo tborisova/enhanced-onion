@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_19_180802) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_20_185126) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -63,6 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_19_180802) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_recipe_categories_on_category_id"
+    t.index ["recipe_id", "category_id"], name: "index_recipe_categories_on_recipe_id_and_category_id", unique: true
     t.index ["recipe_id"], name: "index_recipe_categories_on_recipe_id"
   end
 
@@ -72,6 +73,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_19_180802) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["dietary_preference_id"], name: "index_recipe_dietary_preferences_on_dietary_preference_id"
+    t.index ["recipe_id", "dietary_preference_id"], name: "idx_on_recipe_id_dietary_preference_id_26d95ffd08", unique: true
     t.index ["recipe_id"], name: "index_recipe_dietary_preferences_on_recipe_id"
   end
 
@@ -82,6 +84,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_19_180802) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ingredient_id"], name: "index_recipe_ingredients_on_ingredient_id"
+    t.index ["recipe_id", "ingredient_id"], name: "index_recipe_ingredients_on_recipe_id_and_ingredient_id", unique: true
     t.index ["recipe_id"], name: "index_recipe_ingredients_on_recipe_id"
   end
 

@@ -5,8 +5,8 @@ module Types
     field :description, String, null: true
     field :photo, String, null: true
     field :url, String, null: true
-    field :categories, Types::RecipeCategoryType.connection_type, null: false
-    field :ingredients, Types::RecipeIngredientType.connection_type, null: false
+    field :categories, [RecipeCategoryType], null: false
+    field :ingredients, [RecipeIngredientType], null: false
     field :dietary_preferences, Types::RecipeDietaryPreferenceType.connection_type, null: false
     field :kind, String, null: false # enum
 
