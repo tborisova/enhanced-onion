@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_20_185126) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_12_152309) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -67,16 +67,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_185126) do
     t.index ["recipe_id"], name: "index_recipe_categories_on_recipe_id"
   end
 
-  create_table "recipe_dietary_preferences", force: :cascade do |t|
-    t.integer "recipe_id"
-    t.integer "dietary_preference_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["dietary_preference_id"], name: "index_recipe_dietary_preferences_on_dietary_preference_id"
-    t.index ["recipe_id", "dietary_preference_id"], name: "idx_on_recipe_id_dietary_preference_id_26d95ffd08", unique: true
-    t.index ["recipe_id"], name: "index_recipe_dietary_preferences_on_recipe_id"
-  end
-
   create_table "recipe_ingredients", force: :cascade do |t|
     t.integer "recipe_id"
     t.integer "ingredient_id"
@@ -96,6 +86,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_185126) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "dietary_preference_id"
+    t.index ["dietary_preference_id"], name: "index_recipes_on_dietary_preference_id"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
@@ -123,4 +115,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_20_185126) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "recipes", "dietary_preferences"
 end

@@ -2,6 +2,7 @@ module CreateRecipe
   extend self
 
   def execute(arguments, user)
+    p user
     recipe =
       Recipe.create!(title: arguments[:title], user_id: user.id, description: arguments[:description])
 
@@ -43,6 +44,11 @@ module CreateRecipe
       end
 
       RecipeIngredient.insert_all to_insert
+    end
+
+    if arguments[:dietary_preference]
+      dietary_preference = DietaryPreference.find_by(name: arguments[:dietary_preference].downcase)
+      recipe.update! dietary_preference_id: dietary_preference.id
     end
 
     recipe

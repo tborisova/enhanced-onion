@@ -63,8 +63,4 @@ describe CreateRecipe do
 
     expect(recipe.ingredients.map(&:id)).to eq [pumpkin.id]
   end
-
-  it 'adds dietary preference'
-
-  it 'does not create duplicated dietary preference'
 end

@@ -7,7 +7,7 @@ module Types
     field :url, String, null: true
     field :categories, [RecipeCategoryType], null: false
     field :ingredients, [RecipeIngredientType], null: false
-    field :dietary_preferences, Types::RecipeDietaryPreferenceType.connection_type, null: false
+    field :dietary_preference, DietaryPreferenceKindType, null: true
     field :kind, RecipeKindType, null: false
 
     def id
@@ -21,15 +21,28 @@ module Types
     end
 
     def categories
-      dataloader.with(::Sources::ActiveRecordSource, RecipeCategory, :recipe_id).load(object.id)
+      dataloader.
+        with(::Sources::ActiveRecordSource, RecipeCategory, :recipe_id).
+        load(object.id)
     end
 
     def ingredients
-      dataloader.with(::Sources::ActiveRecordSource, RecipeIngredient, :recipe_id).load(object.id)
+      dataloader.
+        with(::Sources::ActiveRecordSource, RecipeIngredient, :recipe_id).
+        load(object.id)
     end
 
-    def dietary_preferences
-      dataloader.with(::Sources::ActiveRecordSource, RecipeDietaryPreference, :recipe_id).load(object.id)
+    def dietary_preference
+      return nil unless object.dietary_preference
+
+      case object.dietary_preference.name
+      when 'meat'
+        DietaryPreferenceKindType.values["MEAT"].value
+      when 'vegeterian'
+        DietaryPreferenceKindType.values["VEGETERIAN"].value
+      else
+        DietaryPreferenceKindType.values["VEGAN"].value
+      end
     end
 
     def kind

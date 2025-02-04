@@ -28,7 +28,7 @@ module Types
     def recipes(term: nil, category: nil, dietary_preference: nil)
       scope =
         Recipe.
-          left_joins(:categories, :dietary_preferences).
+          left_joins(:categories, :dietary_preference).
           where(user: context[:current_user])
 
       if term.present?

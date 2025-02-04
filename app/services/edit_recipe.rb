@@ -56,6 +56,11 @@ module EditRecipe
       recipe_ingredients.where.not(ingredients: {name: arguments[:ingredients].map { _1[:name].downcase.strip } }).delete_all
     end
 
+
+    if arguments[:dietary_preference]
+      recipe.dietary_preference_id = DietaryPreference.find_by(name: arguments[:dietary_preference])
+    end
+
     recipe.save
     recipe
   end
