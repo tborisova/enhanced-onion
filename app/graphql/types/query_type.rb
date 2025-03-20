@@ -59,5 +59,8 @@ module Types
 
       recipe
     end
+
+    field :profile, Types::ProfileType, null: false
+    def profile = context[:current_user]
   end
 end

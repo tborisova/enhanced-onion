@@ -5,5 +5,7 @@ module Types
     field :create_recipe, mutation: Mutations::CreateRecipeMutation
     field :edit_recipe, mutation: Mutations::EditRecipeMutation
     field :delete_recipe, mutation: Mutations::DeleteRecipeMutation
+    field :update_profile, mutation: Mutations::UpdateProfileMutation
+    field :update_password, mutation: Mutations::UpdatePasswordMutation
   end
 end
