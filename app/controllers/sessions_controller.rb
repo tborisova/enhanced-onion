@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-  protect_from_forgery with: :null_session
   skip_before_action :authenticate_user!, only: %i(create)
 
   def create

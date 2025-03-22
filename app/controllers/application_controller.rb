@@ -1,4 +1,5 @@
-class ApplicationController < ActionController::Base
+class ApplicationController <  ActionController::API
+  include Devise::Controllers::Helpers
   before_action :authenticate_user!
 
   def authenticate_user!

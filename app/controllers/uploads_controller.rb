@@ -1,6 +1,4 @@
 class UploadsController < ApplicationController
-  protect_from_forgery with: :null_session
-
   def create
     @form = UploadForm.new image: params[:upload_form][:image]
 

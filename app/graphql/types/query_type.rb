@@ -40,7 +40,7 @@ module Types
       end
 
       if dietary_preference.present?
-        scope = scope.where(dietary_preferences: {name: dietary_preference})
+        scope = scope.where(dietary_preferences: {name: dietary_preference.downcase})
       end
 
       scope

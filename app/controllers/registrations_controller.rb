@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  protect_from_forgery with: :null_session
+  include Devise::Controllers::Helpers
   skip_before_action :authenticate_user!
 
   def create
@@ -16,9 +16,11 @@ class RegistrationsController < ApplicationController
     if user.valid?
       user.save
       token = Warden::JWTAuth::UserEncoder.new.call(user, :user, nil)
-      render json: { token: token[0], error: nil }
+      p 'IN HERE'
+      render json: { token: token[0], error: nil }, status: :ok
     else
-      render json: { token: nil, error: user.errors.full_messages.join(', ') }
+      p 'IN HEREFF'
+      render json: { token: nil, error: user.errors.full_messages.join(', ') }, status: :ok
     end
   end
 end
