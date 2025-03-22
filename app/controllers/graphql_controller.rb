@@ -6,7 +6,7 @@ class GraphqlController < ApplicationController
   # but you'll have to authenticate your user separately
   # protect_from_forgery with: :null_session
   protect_from_forgery
-  # skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!
 
   def execute
     variables = prepare_variables(params[:variables])
