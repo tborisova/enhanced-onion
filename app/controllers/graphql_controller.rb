@@ -5,7 +5,7 @@ class GraphqlController < ApplicationController
   # This allows for outside API access while preventing CSRF attacks,
   # but you'll have to authenticate your user separately
   # protect_from_forgery with: :null_session
-  protect_from_forgery
+  protect_from_forgery with: :null_session
   skip_before_action :authenticate_user!, if: -> { introspection_query_allowed? }
 
   def execute
