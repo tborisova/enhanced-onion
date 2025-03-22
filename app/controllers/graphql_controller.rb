@@ -6,7 +6,7 @@ class GraphqlController < ApplicationController
   # but you'll have to authenticate your user separately
   # protect_from_forgery with: :null_session
   protect_from_forgery
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, if: -> { introspection_query_allowed? }
 
   def execute
     variables = prepare_variables(params[:variables])
@@ -23,6 +23,8 @@ class GraphqlController < ApplicationController
   end
 
   private
+
+  def introspection_query_allowed? = Rails.env.development? && params[:query]&.include?("__schema")
 
   # Handle variables in form data, JSON body, or a blank value
   def prepare_variables(variables_param)
