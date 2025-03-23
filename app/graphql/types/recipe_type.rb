@@ -22,7 +22,7 @@ module Types
 
       return nil unless photo.present?
 
-      Rails.application.routes.url_helpers.rails_blob_url(object.photo, only_path: true)
+      Rails.application.routes.url_helpers.rails_blob_url(photo, only_path: true)
     end
 
     def categories
