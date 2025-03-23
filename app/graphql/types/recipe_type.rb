@@ -15,7 +15,12 @@ module Types
     end
 
     def photo
-      return nil unless object.photo.present?
+      photo =
+        dataloader.
+        with(::Sources::ActiveRecordSource, ActiveStorage::Attachment, :record_id).
+        load(object.id).first
+
+      return nil unless photo.present?
 
       Rails.application.routes.url_helpers.rails_blob_url(object.photo, only_path: true)
     end
@@ -33,9 +38,14 @@ module Types
     end
 
     def dietary_preference
-      return nil unless object.dietary_preference
+      dietary_preference =
+        dataloader.
+        with(::Sources::ActiveRecordSource, DietaryPreference, :id).
+        load(object.dietary_preference_id).first
 
-      case object.dietary_preference.name
+      return nil unless dietary_preference
+
+      case dietary_preference.name
       when 'meat'
         DietaryPreferenceKindType.values["MEAT"].value
       when 'vegeterian'
@@ -46,7 +56,12 @@ module Types
     end
 
     def kind
-      if object.photo.present?
+      photo =
+        dataloader.
+        with(::Sources::ActiveRecordSource, ActiveStorage::Attachment, :record_id).
+        load(object.id).first
+
+      if photo.present?
         RecipeKindType.values["PHOTO"].value
       elsif object.url.present?
         RecipeKindType.values["URL"].value
