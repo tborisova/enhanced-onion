@@ -14,18 +14,9 @@ module EditRecipe
     end
 
     if arguments[:categories]
-      category_names = arguments[:categories].map(&:downcase).map(&:strip)
-      recipe.
-        recipe_categories.joins(:category).
-        where.not(categories: {name: category_names}).delete_all
-
-      categories = Category.create_if_missing(category_names)
-      to_insert = []
-      categories.each do |id|
-        next if recipe.categories.map(&:id).include?(id)
-        to_insert << {recipe_id: recipe.id, category_id: id }
-      end
-
+      categories = GlobalID::Locator.locate_many(arguments[:categories]).pluck :id
+      recipe.recipe_categories.where.not(category_id: categories).delete_all
+      to_insert = categories.map {{recipe_id: recipe.id, category_id: _1 }}
       RecipeCategory.insert_all to_insert, unique_by: %i(recipe_id category_id)
     end
 
@@ -53,7 +44,8 @@ module EditRecipe
         end
       end
 
-      recipe_ingredients.where.not(ingredients: {name: arguments[:ingredients].map { _1[:name].downcase.strip } }).delete_all
+      recipe_ingredients.
+        where.not(ingredients: {name: arguments[:ingredients].map { _1[:name].downcase.strip } }).delete_all
     end
 
 

@@ -79,25 +79,24 @@ describe EditRecipe do
 
   it 'changes categories' do
     recipe = create :recipe
-    category = create :category, name: 'soup'
-    create(:recipe_category, recipe:, category:)
+    first_category = create :category
+    second_category = create :category
+    create(:recipe_category, recipe:, category: first_category)
 
-    EditRecipe.execute(recipe.user, recipe, {categories: ['salad', 'soup']})
+    EditRecipe.execute(recipe.user, recipe, {categories: [first_category.to_gid_param, second_category.to_gid_param]})
 
-    recipe_categories = recipe.reload.recipe_categories.joins(:category)
-
-    expect(recipe_categories.map(&:category).map(&:name)).to match_array ['salad', 'soup']
+    expect(recipe.reload.categories.ids).to match_array [first_category.id, second_category.id]
   end
 
   it 'removes categories that are not in the list' do
     recipe = create :recipe
-    create(:recipe_category, recipe:, category: create(:category, name: 'salad'))
+    soup = create :category
+    create(:recipe_category, recipe:, category: create(:category))
 
-    EditRecipe.execute(recipe.user, recipe, {categories: ['soup']})
+    EditRecipe.execute(recipe.user, recipe, {categories: [soup.to_gid_param]})
 
-    recipe_categories = recipe.reload.recipe_categories.includes(:category)
-
-    expect(recipe_categories.map(&:category).map(&:name)).to eq ['soup']
+    expect(recipe.reload.categories.size).to eq 1
+    expect(recipe.reload.categories.ids).to eq [soup.id]
   end
 
   it 'changes ingredients quantity' do

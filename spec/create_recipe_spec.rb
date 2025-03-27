@@ -27,19 +27,10 @@ describe CreateRecipe do
   xit 'creates recipe with photo'
 
   it 'adds categories to the recipe' do
-    recipe = CreateRecipe.execute(recipe_attributes.merge({categories: ['Soups']}), user)
+    category = create :category
+    recipe = CreateRecipe.execute(recipe_attributes.merge({categories: [category.to_gid_param]}), user)
 
-    expect(recipe.categories.map(&:name)).to eq ['soups']
-  end
-
-  it 'does not create duplicated categories' do
-    category = create :category, name: 'soups'
-
-    recipe = CreateRecipe.execute(recipe_attributes.merge({categories: ['Soups', 'Winter']}), user)
-
-    expect(recipe.categories.size).to eq 2
-    expect(recipe.categories.map(&:id)).to include category.id
-    expect(recipe.categories.map(&:name)).to match_array ['soups', 'winter']
+    expect(recipe.categories.ids).to eq [category.id]
   end
 
   it 'adds ingredients to the recipe' do

@@ -36,7 +36,7 @@ module Types
       end
 
       if category.present?
-        scope = scope.where(categories: {name: category})
+        scope = scope.where(categories: {id: GlobalID.parse(category).model_id})
       end
 
       if dietary_preference.present?
@@ -46,8 +46,10 @@ module Types
       scope
     end
 
-    field :categories, Types::CategoryType.connection_type, null: false
-    def categories = Category.all
+    field :categories, [Types::CategoryType], null: false
+    def categories
+      Category.all
+    end
 
     field :recipe, Types::RecipeType, null: true do
       argument :id, ID, required: true

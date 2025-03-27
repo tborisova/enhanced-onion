@@ -2,7 +2,6 @@ module CreateRecipe
   extend self
 
   def execute(arguments, user)
-    p user
     recipe =
       Recipe.create!(title: arguments[:title], user_id: user.id, description: arguments[:description])
 
@@ -16,14 +15,9 @@ module CreateRecipe
     end
 
     if arguments[:categories]
-      categories = Category.create_if_missing arguments[:categories].map(&:downcase).map(&:strip)
+      categories = GlobalID::Locator.locate_many(arguments[:categories]).pluck :id
 
-      to_insert = []
-      categories.each do |id|
-        to_insert << {recipe_id: recipe.id, category_id: id }
-      end
-
-      RecipeCategory.insert_all to_insert
+      RecipeCategory.insert_all categories.map { {recipe_id: recipe.id, category_id: _1 } }
     end
 
     if arguments[:ingredients]

@@ -10,7 +10,7 @@ module Types
     def name
       result = dataloader.with(::Sources::ActiveRecordSource, Category, :id).request(object.category_id)
 
-      result.load.first.name
+      result.load.first.name.titleize
     end
   end
 end

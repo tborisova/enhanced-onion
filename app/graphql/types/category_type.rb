@@ -4,5 +4,6 @@ module Types
     field :name, String, null: false
 
     def id = object.to_gid_param
+    def name = object.name.titleize
   end
 end
