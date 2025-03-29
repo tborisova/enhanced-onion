@@ -5,11 +5,11 @@ module CreateRecipe
     recipe =
       Recipe.create!(title: arguments[:title], user_id: user.id, description: arguments[:description])
 
-    if arguments[:url]
-      return nil unless arguments[:url] =~ URI::regexp
-
+    if arguments[:url] && arguments[:url] =~ URI::regexp
       recipe.update url: arguments[:url]
-    elsif arguments[:photo_id]
+    end
+
+    if arguments[:photo_id]
       photo = TemporaryRecipeImage.find arguments[:photo_id]
       recipe.photo.attach(photo.image.blob)
     end

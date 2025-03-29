@@ -29,7 +29,8 @@ module Types
       scope =
         Recipe.
           left_joins(:categories, :dietary_preference).
-          where(user: context[:current_user])
+          where(user: context[:current_user]).
+          order("created_at DESC")
 
       if term.present?
         scope = scope.where("title LIKE '%#{term}%'")
