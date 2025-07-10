@@ -4,6 +4,13 @@ class GraphqlController < ApplicationController
   skip_before_action :authenticate_user!, if: -> { introspection_query_allowed? }
 
   def execute
+    Honeybadger.context({
+      user_id: current_user&.id,
+      user_email: current_user&.email,
+      query: params[:query],
+      variables: prepare_variables(params[:variables])
+    })
+
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
@@ -13,6 +20,7 @@ class GraphqlController < ApplicationController
     result = EnhancedOnionSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue StandardError => e
+    Honeybadger.notify(e)
     raise e unless Rails.env.development?
     handle_error_in_development(e)
   end
@@ -44,7 +52,6 @@ class GraphqlController < ApplicationController
   def handle_error_in_development(e)
     logger.error e.message
     logger.error e.backtrace.join("\n")
-
     render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
   end
 end

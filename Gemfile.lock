@@ -165,6 +165,9 @@ GEM
     graphql (2.3.16)
       base64
       fiber-storage
+    honeybadger (5.29.1)
+      logger
+      ostruct
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     image_processing (1.13.0)
@@ -216,6 +219,7 @@ GEM
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    ostruct (0.6.2)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -373,6 +377,7 @@ DEPENDENCIES
   factory_bot_rails
   graphiql-rails
   graphql (~> 2.3)
+  honeybadger (~> 5.29)
   image_processing (~> 1.2)
   pry (~> 0.14.2)
   puma (>= 5.0)

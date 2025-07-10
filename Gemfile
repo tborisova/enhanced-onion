@@ -80,3 +80,5 @@ gem 'devise'
 gem 'devise-jwt'
 
 gem 'rack-cors'
+
+gem "honeybadger", "~> 5.29"
