@@ -20,8 +20,9 @@ module CreateRecipe
       RecipeCategory.insert_all categories.map { {recipe_id: recipe.id, category_id: _1 } }
     end
 
-    if arguments[:ingredients].compact.present?
-      ingredient_names = arguments[:ingredients].map { _1[:name] }.map(&:downcase).map(&:strip)
+    ingredient_names = arguments[:ingredients].compact.map { _1[:name] }.map(&:downcase).map(&:strip).compact_blank
+
+    if ingredient_names.present?
       known_ingredients = Ingredient.where(name: ingredient_names)
       missing = ingredient_names - known_ingredients.pluck(:name)
       ingredients = known_ingredients.index_by(&:name).transform_values { _1.id }
