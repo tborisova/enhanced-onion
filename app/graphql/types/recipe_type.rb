@@ -15,14 +15,21 @@ module Types
     end
 
     def photo
-      photo =
-        dataloader.
-        with(::Sources::ActiveRecordSource, ActiveStorage::Attachment, :record_id).
-        load(object.id).first
-
-      return nil unless photo.present?
-
-      Rails.application.routes.url_helpers.rails_blob_url(photo, only_path: true)
+      dataloader
+        .with(Sources::ActiveStorageAttachmentsByRecord, name: "photo", record_type: "Recipe")
+        .load(object.id)
+        .then do |attachment|
+          if attachment&.blob_id
+            dataloader
+              .with(Sources::ActiveStorageBlobsById)
+              .load(attachment.blob_id)
+              .then do |blob|
+                blob ? Rails.application.routes.url_helpers.rails_blob_url(blob, only_path: true) : nil
+              end
+          else
+            nil
+          end
+        end
     end
 
     def categories
