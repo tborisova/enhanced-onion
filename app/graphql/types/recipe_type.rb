@@ -3,7 +3,7 @@ module Types
     field :id, ID, null: false
     field :title, String, null: false
     field :description, String, null: true
-    field :photo, String, null: true
+    field :photo_url, String, null: true
     field :url, String, null: true
     field :categories, [RecipeCategoryType], null: false
     field :ingredients, [RecipeIngredientType], null: false
@@ -14,7 +14,7 @@ module Types
       object.to_gid_param
     end
 
-    def photo
+    def photo_url
       dataloader
         .with(Sources::ActiveStorageAttachmentsByRecord, name: "photo", record_type: "Recipe")
         .load(object.id)
