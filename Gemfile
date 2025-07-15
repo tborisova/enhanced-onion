@@ -78,7 +78,7 @@ gem "graphiql-rails", group: :development
 
 gem 'devise'
 gem 'devise-jwt'
-
+gem 'pg'
 gem 'rack-cors'
 
 gem "honeybadger", "~> 5.29"

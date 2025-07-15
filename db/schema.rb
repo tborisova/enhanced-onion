@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2025_03_22_163153) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -58,8 +61,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_22_163153) do
   end
 
   create_table "recipe_categories", force: :cascade do |t|
-    t.integer "recipe_id"
-    t.integer "category_id"
+    t.bigint "recipe_id"
+    t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_recipe_categories_on_category_id"
@@ -68,8 +71,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_22_163153) do
   end
 
   create_table "recipe_ingredients", force: :cascade do |t|
-    t.integer "recipe_id"
-    t.integer "ingredient_id"
+    t.bigint "recipe_id"
+    t.bigint "ingredient_id"
     t.string "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -83,10 +86,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_22_163153) do
     t.string "url"
     t.string "time"
     t.text "description"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "dietary_preference_id"
+    t.bigint "dietary_preference_id"
     t.index ["dietary_preference_id"], name: "index_recipes_on_dietary_preference_id"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
@@ -108,7 +111,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_22_163153) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
