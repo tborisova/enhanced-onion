@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
+  before_action :check_version
+
   skip_before_action :authenticate_user!, if: -> { introspection_query_allowed? }
 
   def execute
@@ -8,7 +10,8 @@ class GraphqlController < ApplicationController
       user_id: current_user&.id,
       user_email: current_user&.email,
       query: params[:query],
-      variables: prepare_variables(params[:variables])
+      variables: prepare_variables(params[:variables]),
+      version: request.headers['X-App-Version']
     })
 
     variables = prepare_variables(params[:variables])
@@ -26,6 +29,13 @@ class GraphqlController < ApplicationController
   end
 
   private
+
+  def check_version
+    version = request.headers["X-App-Version"]
+    # Just log it or store it for now
+    Rails.logger.info "Client App Version: #{version}"
+    # return render json: { error: "Please update the app to continue." }, status: 426
+  end
 
   def introspection_query_allowed? = Rails.env.development? && params[:query]&.include?("__schema")
 
