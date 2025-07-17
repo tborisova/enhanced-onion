@@ -16,11 +16,9 @@ class RegistrationsController < ApplicationController
     if user.valid?
       user.save
       token = Warden::JWTAuth::UserEncoder.new.call(user, :user, nil)
-      p 'IN HERE'
-      render json: { token: token[0], error: nil }, status: :ok
+      render json: { token: token[0], error: nil, email: user.email, name: user.name }, status: :ok
     else
-      p 'IN HEREFF'
-      render json: { token: nil, error: user.errors.full_messages.join(', ') }, status: :ok
+      render json: { token: nil, error: user.errors.full_messages.join(', '), email: nil, name: nil }, status: :ok
     end
   end
 end

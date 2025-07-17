@@ -6,9 +6,9 @@ class SessionsController < ApplicationController
     if user&.valid_password?(params[:password])
       token = Warden::JWTAuth::UserEncoder.new.call(user, :user, nil)
       @current_user = user
-      render json: { token: token[0], error: nil, name: user.name }
+      render json: { token: token[0], error: nil, name: user.name, email: user.email }
     else
-      render json: { token: nil, error: "Invalid credentials", name: nil }
+      render json: { token: nil, error: "Invalid credentials", name: nil, email: nil }
     end
   end
 end
