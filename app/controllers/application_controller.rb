@@ -19,6 +19,8 @@ class ApplicationController <  ActionController::API
         render json: { error: 'Token has expired' }, status: :unauthorized
       rescue JWT::DecodeError
         render json: { error: 'Invalid token' }, status: :unauthorized
+      rescue ActiveRecord::NotFound
+        render json: { error: 'User not found' }, status: :unauthorized
       end
     else
       render json: { error: 'Token not provided' }, status: :unauthorized
