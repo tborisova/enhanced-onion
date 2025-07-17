@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
-  before_action :check_version
+  # before_action :check_version
 
   skip_before_action :authenticate_user!, if: -> { introspection_query_allowed? }
 
