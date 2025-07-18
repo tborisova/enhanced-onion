@@ -1,6 +1,5 @@
 class RegistrationsController < ApplicationController
   include Devise::Controllers::Helpers
-  skip_before_action :authenticate_user!
 
   def create
     password = params[:password]

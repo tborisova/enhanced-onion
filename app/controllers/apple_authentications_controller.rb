@@ -1,6 +1,4 @@
 class AppleAuthenticationsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i(create)
-
   def create
     user = User.find_for_apple(params[:email], params[:apple_idx])
     password = SecureRandom.hex(8)

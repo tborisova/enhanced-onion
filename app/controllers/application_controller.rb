@@ -1,6 +1,5 @@
 class ApplicationController <  ActionController::API
   include Devise::Controllers::Helpers
-  before_action :authenticate_user!
 
   def authenticate_user!
     jwt_token = request.headers['Authorization']&.split(' ')&.last

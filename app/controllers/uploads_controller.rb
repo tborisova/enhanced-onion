@@ -1,4 +1,6 @@
 class UploadsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     @form = UploadForm.new image: params[:upload_form][:image]
 
