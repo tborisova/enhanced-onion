@@ -2,7 +2,7 @@
 
 class GraphqlController < ApplicationController
   # before_action :check_version
-  before_action :authenticate_user!
+  before_action :authenticate_user!, unless: -> { introspection_query_allowed? }
 
   def execute
     Honeybadger.context({

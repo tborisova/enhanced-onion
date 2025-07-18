@@ -2,13 +2,9 @@ class RegistrationsController < ApplicationController
   include Devise::Controllers::Helpers
 
   def create
-    password = params[:password]
+    password = Devise.friendly_token
     email = params[:email]
     name = params[:name]
-
-    if password != params[:password_confirmation]
-      return render json: {token: nil, error: "Passwords don't match"}
-    end
 
     user = User.new password:, password_confirmation: password, name:, email: email
 

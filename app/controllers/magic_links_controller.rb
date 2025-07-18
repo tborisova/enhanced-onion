@@ -1,11 +1,14 @@
 class MagicLinksController < ApplicationController
   def create
     user = User.find_by(email: params[:email])
+
     if user
       user.generate_login_token!
       UserMailer.magic_link(user).deliver_later
     end
-    head :ok # Always respond with 200 for privacy
+
+    # TODO: this should return json with success - true/false and error
+    head :ok
   end
 
 
