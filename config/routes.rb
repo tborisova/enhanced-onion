@@ -4,12 +4,11 @@ Rails.application.routes.draw do
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
   post "/graphql", to: "graphql#execute"
-  post "/login", to: "sessions#create"
+  get "/login", to: "sessions#create"
   post "/register", to: "registrations#create"
   post "/apple", to: "apple_authentications#create"
 
   post '/magic_link', to: 'magic_links#create'
-  post '/magic_login', to: 'magic_links#login'
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
