@@ -5,6 +5,7 @@ class User < ApplicationRecord
   #        :recoverable, :rememberable, :validatable
   devise :lockable, :registerable, :validatable, :recoverable, :database_authenticatable
   has_many :recipes
+  belongs_to :plan
 
   devise :jwt_authenticatable, jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
 

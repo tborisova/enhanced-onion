@@ -9,11 +9,13 @@ module Mutations
     argument :dietary_preference, Types::DietaryPreferenceKindType, required: false
 
     field :recipe, Types::RecipeType, null: true
+    field :recipes_quota_reached, Boolean, null: false
+    field :images_quota_reached, Boolean, null: false
 
     def resolve(input)
-      recipe = CreateRecipe.execute input, context[:current_user]
+      recipe, quotas = CreateRecipe.execute input, context[:current_user]
 
-      {recipe:}
+      {recipe:, recipes_quota_reached: quotas[:recipe], images_quota_reached: quotas[:images] }
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_18_110933) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_20_105344) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -56,6 +56,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_18_110933) do
 
   create_table "ingredients", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "plans", force: :cascade do |t|
+    t.string "name"
+    t.boolean "is_free"
+    t.integer "images_quota"
+    t.integer "recipes_quota"
+    t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -115,6 +125,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_18_110933) do
     t.string "apple_idx"
     t.string "login_token"
     t.datetime "login_token_sent_at"
+    t.integer "plan_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true

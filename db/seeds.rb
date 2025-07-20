@@ -21,7 +21,17 @@ end
   DietaryPreference.create! name: preference
 end
 
+plan = Plan.create! name: 'Test', is_free: true
 
-u1 = User.create! name: 'Llama', email: 'llama@example.com', password: 'Test1234', password_confirmation: 'Test1234'
-u2 = User.create! name: 'Test', email: 'test@example.com', password: 'Test1234', password_confirmation: 'Test1234'
+u1 = User.create! plan: plan, name: 'Llama', email: 'llama@example.com', password: 'Test1234', password_confirmation: 'Test1234'
+u2 = User.create! plan: plan, name: 'Test', email: 'test@example.com', password: 'Test1234', password_confirmation: 'Test1234'
+
+recipe = u1.recipes.create! title: 'Test', description: 'Mix everything well'
+recipe.photo.attach(
+  io: File.open(Rails.root.join('spec', 'fixtures', 'logo.png')),
+  filename: 'logo.png',
+  content_type: 'image/png'
+)
+
+u1.recipes.create! title: 'Test 2', description: 'Mix everything well'
 
