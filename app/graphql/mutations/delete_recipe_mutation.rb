@@ -1,15 +1,13 @@
 module Mutations
   class DeleteRecipeMutation < BaseMutation
+    include RecipeMutationFields
+
     argument :recipe_id, ID, required: true
 
-    field :recipe, Types::RecipeType, null: true
-
     def resolve(input)
-      recipe = GlobalID::Locator.locate(input[:recipe_id])
+      DeleteRecipe.execute context[:current_user], input[:recipe_id]
 
-      recipe = DeleteRecipe.execute context[:current_user], recipe
-
-      {recipe:}
+      { recipe: nil, user: context[:current_user] }
     end
   end
 end

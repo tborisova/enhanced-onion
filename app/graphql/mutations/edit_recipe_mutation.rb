@@ -1,5 +1,7 @@
 module Mutations
   class EditRecipeMutation < BaseMutation
+    include RecipeMutationFields
+
     argument :recipe_id, ID, required: true
     argument :title, String, required: false
     argument :description, String, required: false
@@ -9,14 +11,10 @@ module Mutations
     argument :categories, [ID], required: false
     argument :dietary_preference, Types::DietaryPreferenceKindType, required: false
 
-    field :recipe, Types::RecipeType, null: true
-
     def resolve(input)
-      recipe = GlobalID::Locator.locate(input[:recipe_id])
+      result = EditRecipe.execute context[:current_user], input
 
-      recipe = EditRecipe.execute context[:current_user], recipe, input
-
-      {recipe:}
+      { recipe: result.recipe, errors: result.errors, user: context[:current_user] }
     end
   end
 end
