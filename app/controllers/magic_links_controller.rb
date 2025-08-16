@@ -1,7 +1,6 @@
 class MagicLinksController < ApplicationController
-
   def create
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email: params[:email], suspended: false)
 
     if user
       user.generate_login_token!

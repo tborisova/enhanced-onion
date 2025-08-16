@@ -1,4 +1,4 @@
-class ApplicationController <  ActionController::API
+class ApplicationController < ActionController::API
   include Devise::Controllers::Helpers
 
   def authenticate_user!
@@ -13,12 +13,12 @@ class ApplicationController <  ActionController::API
             algorithm: 'HS256'
           )
         user_id = decoded_token[0]['sub'] # 'sub' usually contains user_id
-        @current_user = User.find(user_id)
+        @current_user = User.find_by!(id: user_id, suspended: false)
       rescue JWT::ExpiredSignature
         render json: { error: 'Token has expired' }, status: :unauthorized
       rescue JWT::DecodeError
         render json: { error: 'Invalid token' }, status: :unauthorized
-      rescue ActiveRecord::NotFound
+      rescue ActiveRecord::RecordNotFound
         render json: { error: 'User not found' }, status: :unauthorized
       end
     else

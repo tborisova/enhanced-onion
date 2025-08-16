@@ -1,7 +1,6 @@
 class SessionsController < ApplicationController
-
   def create
-    user = User.find_by(login_token: params[:token])
+    user = User.find_by(login_token: params[:token], suspended: false)
 
     if user&.login_token_valid?
       user.clear_login_token!
@@ -9,7 +8,7 @@ class SessionsController < ApplicationController
       @current_user = user
       render json: { token: token[0], error: nil, name: user.name, email: user.email }
     else
-      render json: { token: nil, error: "Invalid credentials or token expired", name: nil, email: nil }
+      render json: { token: nil, error: 'Invalid credentials or token expired', name: nil, email: nil }
     end
   end
 end
