@@ -4,7 +4,7 @@ class UploadsController < ApplicationController
   def create
     @form = UploadForm.new image: params[:upload_form][:image]
 
-    r = @form.execute
+    @form.execute
   end
 
   def upload
@@ -12,7 +12,7 @@ class UploadsController < ApplicationController
 
     r.image.attach(io: params[:file], filename: params[:file].original_filename)
 
-    return render json: {id: r.id}
+    render json: { id: r.id }
   end
 
   def show

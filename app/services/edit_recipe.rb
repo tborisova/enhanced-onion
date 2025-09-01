@@ -1,7 +1,7 @@
 module EditRecipe
   extend self
 
-  Response = Data.define :recipe, :limits, :errors
+  Response = Data.define :recipe, :errors
 
   def execute(user, arguments)
     recipe = GlobalID::Locator.locate(arguments[:recipe_id])
@@ -13,9 +13,9 @@ module EditRecipe
 
     attributes = arguments.slice :title, :description
 
-    if arguments[:url] && arguments[:url] =~ URI::DEFAULT_PARSER.make_regexp
+    if arguments[:url].present? && arguments[:url] =~ URI::DEFAULT_PARSER.make_regexp
       attributes[:url] = arguments[:url]
-    elsif arguments[:url]
+    elsif arguments[:url].present?
       return Response.new recipe: nil, errors: [{ field: 'url', message: 'invalid URL' }]
     end
 
