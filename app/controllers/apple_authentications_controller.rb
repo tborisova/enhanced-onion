@@ -10,8 +10,9 @@ class AppleAuthenticationsController < ApplicationController
         password:,
         password_confirmation: password,
         name: params[:name].presence || 'Apple user',
-        email: params[:email],
-        apple_idx: params[:apple_idx]
+        email: params[:email] || "#{params[:apple_idx].split('.')[0]}@curryuser.com",
+        apple_idx: params[:apple_idx],
+        plan_id: Plan.last.id
       )
 
       token = Warden::JWTAuth::UserEncoder.new.call(user, :user, nil)

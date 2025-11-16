@@ -9,6 +9,7 @@ module Types
     field :remaining_recipes_count, Boolean, null: true
     field :remaining_images_count, Boolean, null: true
     field :suspended, Boolean, null: false
+    field :show_name, Boolean, null: false
 
     def id = object.to_gid_param
     def has_free_plan = plan_limits[:free]
@@ -16,6 +17,7 @@ module Types
     def images_quota_reached = plan_limits[:images_quota_reached]
     def remaining_recipes_count = plan_limits[:remaining_recipes_count]
     def remaining_images_count = plan_limits[:remaining_images_count]
+    def show_name = object.missing_name
 
     private
 

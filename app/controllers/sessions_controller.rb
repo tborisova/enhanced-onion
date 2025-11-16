@@ -6,9 +6,9 @@ class SessionsController < ApplicationController
       user.clear_login_token!
       token = Warden::JWTAuth::UserEncoder.new.call(user, :user, nil)
       @current_user = user
-      render json: { token: token[0], error: nil, name: user.name, email: user.email }
+      render json: { token: token[0], error: nil, name: user.name, email: user.email, show_intro: user.missing_name }
     else
-      render json: { token: nil, error: 'Invalid credentials or token expired', name: nil, email: nil }
+      render json: { token: nil, error: 'Invalid credentials or token expired', name: nil, email: nil, show_intro: false }
     end
   end
 end

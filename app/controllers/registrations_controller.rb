@@ -4,7 +4,7 @@ class RegistrationsController < ApplicationController
   def create
     password = Devise.friendly_token
     email = params[:email]
-    name = params[:name]
+    name = params[:name].presence || 'Test'
     plan = Plan.first
 
     user = User.new password:, password_confirmation: password, name:, email: email, plan_id: plan.id

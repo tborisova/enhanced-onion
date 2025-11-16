@@ -34,7 +34,7 @@ class GraphqlController < ApplicationController
     version = request.headers['X-App-Version']
     # Just log it or store it for now
     Rails.logger.info "Client App Version: #{version}"
-    # return render json: { error: "Please update the app to continue." }, status: 426
+    # render json: { error: 'Please update the app to continue.' }, status: 426
   end
 
   def introspection_query_allowed? = Rails.env.development? && params[:query]&.include?('__schema')
