@@ -22,7 +22,7 @@ module Types
     field :recipes, Types::RecipeType.connection_type, null: false do
       argument :category, String, required: false
       argument :term, String, required: false
-      argument :dietary_preference, String, required: false
+      argument :dietary_preference, DietaryPreferenceKindType, required: false
     end
 
     def recipes(term: nil, category: nil, dietary_preference: nil)

@@ -12,7 +12,7 @@ module Mutations
 
     def resolve(input)
       result = CreateRecipe.execute input, context[:current_user]
-      p result
+
       { recipe: result.recipe, errors: result.errors, user: context[:current_user] }
     end
   end
