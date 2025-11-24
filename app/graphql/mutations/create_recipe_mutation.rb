@@ -8,7 +8,7 @@ module Mutations
     argument :photo_id, String, required: false
     argument :ingredients, [Types::RecipeIngredientInputType], required: false
     argument :categories, [ID], required: true
-    argument :dietary_preference, Types::DietaryPreferenceKindType, required: false
+    argument :dietary_preference, Types::DietaryPreferenceKindType, required: true
 
     def resolve(input)
       result = CreateRecipe.execute input, context[:current_user]
