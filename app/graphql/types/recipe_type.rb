@@ -7,7 +7,7 @@ module Types
     field :url, String, null: true
     field :categories, [RecipeCategoryType], null: false
     field :ingredients, [RecipeIngredientType], null: false
-    field :dietary_preference, DietaryPreferenceKindType, null: true
+    field :dietary_preference, DietaryPreferenceKindType, null: false
     field :kind, RecipeKindType, null: false
 
     def id
