@@ -35,3 +35,10 @@ recipe.photo.attach(
 
 u1.recipes.create! title: 'Test 2', description: 'Mix everything well'
 
+1.upto(200).each do |x|
+  r = u.recipes.create! title: 'Test', description: 'Mix everything well', dietary_preference_id: DietaryPreference.pluck(:id).sample
+
+  RecipeCategory.create! recipe_id: r.id, category_id: Category.pluck(:id).sample
+
+  RecipeIngredient.create! recipe_id: r.id, ingredient_id: Ingredient.pluck(:id).sample, quantity: "#{x} pcs"
+end
