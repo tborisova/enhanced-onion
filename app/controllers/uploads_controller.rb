@@ -25,14 +25,16 @@ class UploadsController < ApplicationController
       return render json: { error: 'File too large. Maximum size: 10MB' }, status: :unprocessable_entity
     end
 
-    r = TemporaryRecipeImage.create!
+    r = TemporaryRecipeImage.create!(user: @current_user)
     r.image.attach(io: file, filename: file.original_filename)
 
     render json: { id: r.id }
   end
 
   def show
-    @recipe = TemporaryRecipeImage.find params[:id]
+    @recipe = @current_user.temporary_recipe_images.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Image not found' }, status: :not_found
   end
 
   def new
