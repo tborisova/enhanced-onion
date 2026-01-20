@@ -32,7 +32,7 @@ module Types
         .where(user: context[:current_user])
         .order('created_at DESC')
 
-      scope = scope.where("title LIKE '%#{term}%'") if term.present?
+      scope = scope.where("title LIKE ?", "%#{term}%") if term.present?
 
       scope = scope.where(categories: { id: GlobalID.parse(category).model_id }) if category.present?
 
