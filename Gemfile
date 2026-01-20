@@ -78,6 +78,7 @@ gem "graphiql-rails", group: :development
 
 gem 'devise'
 gem 'devise-jwt'
+gem 'apple_id'
 gem 'pg'
 gem 'rack-cors'
 gem 'rack-attack'

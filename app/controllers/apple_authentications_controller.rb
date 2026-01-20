@@ -1,17 +1,33 @@
 class AppleAuthenticationsController < ApplicationController
   def create
-    user = User.find_for_apple(params[:email], params[:apple_idx])
-    password = Devise.friendly_token
+    identity_token = params[:identity_token]
+
+    unless identity_token.present?
+      return render json: { token: nil, error: 'Identity token required', name: nil, email: nil }, status: :bad_request
+    end
+
+    verification = AppleAuthService.new(identity_token: identity_token).verify
+
+    unless verification.success?
+      return render json: { token: nil, error: verification.error, name: nil, email: nil }, status: :unauthorized
+    end
+
+    apple_user_id = verification.user_id
+    verified_email = verification.email
+
+    user = User.find_for_apple(verified_email, apple_user_id)
 
     if user&.suspended
       render json: { token: nil, error: 'User suspended', name: nil, email: nil }
     else
+      password = Devise.friendly_token
+
       user ||= User.create!(
         password:,
         password_confirmation: password,
         name: params[:name].presence || 'Apple user',
-        email: params[:email] || "#{params[:apple_idx].split('.')[0]}@curryuser.com",
-        apple_idx: params[:apple_idx],
+        email: verified_email || "#{apple_user_id.split('.')[0]}@curryuser.com",
+        apple_idx: apple_user_id,
         plan_id: (Plan.find_by(is_free: false) || Plan.first).id
       )
 
