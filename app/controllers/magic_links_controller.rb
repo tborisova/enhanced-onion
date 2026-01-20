@@ -5,14 +5,13 @@ class MagicLinksController < ApplicationController
     if user && !user.suspended
       user.generate_login_token!
       UserMailer.magic_link(user).deliver_later
-      render json: { success: true }
     elsif user&.suspended
-      render json: { success: false }
+      # Don't reveal that user is suspended - same response as success
     else
       password = Devise.friendly_token
       email = params[:email]
-      name = params[:name].presence || 'Test'
-      plan = Plan.first
+      name = params[:name].presence || 'User'
+      plan = Plan.find_by(is_free: false) || Plan.first
 
       user =
         User.new password:, password_confirmation: password, name:, email: email, plan_id: plan.id, missing_name: true
@@ -21,10 +20,11 @@ class MagicLinksController < ApplicationController
         user.save
         user.generate_login_token!
         UserMailer.magic_link(user).deliver_later
-        render json: { success: true }
-      else
-        render json: { success: false }
       end
+      # Invalid email format - don't reveal, same response
     end
+
+    # Always return success to prevent user enumeration
+    render json: { success: true }
   end
 end
