@@ -7,6 +7,14 @@ class Rack::Attack
     req.ip if req.path == '/magic_link' && req.post?
   end
 
+  # Throttle magic link requests by email
+  # 3 requests per 15 minutes per email address
+  throttle('magic_links/email', limit: 3, period: 15.minutes) do |req|
+    if req.path == '/magic_link' && req.post?
+      req.params['email'].to_s.downcase.strip.presence
+    end
+  end
+
   # Throttle login attempts by IP
   # 10 requests per minute per IP
   throttle('logins/ip', limit: 10, period: 1.minute) do |req|
