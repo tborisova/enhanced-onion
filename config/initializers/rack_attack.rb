@@ -10,7 +10,7 @@ class Rack::Attack
   # Throttle login attempts by IP
   # 10 requests per minute per IP
   throttle('logins/ip', limit: 10, period: 1.minute) do |req|
-    req.ip if req.path == '/login' && req.post?
+    req.ip if req.path == '/login' && req.get?
   end
 
   # Throttle registration attempts by IP
