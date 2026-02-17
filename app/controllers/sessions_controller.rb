@@ -8,7 +8,8 @@ class SessionsController < ApplicationController
       @current_user = user
       render json: { token: token[0], error: nil, name: user.name, email: user.email, show_intro: user.missing_name }
     else
-      render json: { token: nil, error: 'Invalid credentials or token expired', name: nil, email: nil, show_intro: false }
+      render json: { token: nil, error: 'Invalid credentials or token expired', name: nil, email: nil,
+                     show_intro: false }
     end
   end
 end
