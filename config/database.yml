@@ -10,3 +10,12 @@ development:
 test:
   <<: *default
   database: curry_on_mars
+
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
+  database: <%= ENV.fetch("DB_NAME", "enhanced_onion_production") %>
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
