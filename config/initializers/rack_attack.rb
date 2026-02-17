@@ -45,6 +45,12 @@ class Rack::Attack
     req.ip if req.path.start_with?('/graphql')
   end
 
+  # Global catch-all throttle
+  # 600 requests per minute per IP across all endpoints
+  throttle('global/ip', limit: 600, period: 1.minute) do |req|
+    req.ip unless req.path == '/up'
+  end
+
   # Block suspicious requests
   blocklist('block bad IPs') do |req|
     # Add known bad IPs or patterns here
