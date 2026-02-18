@@ -87,3 +87,5 @@ gem 'rack-cors'
 
 gem 'aws-sdk-s3', require: false
 gem 'honeybadger', '~> 5.29'
+
+gem "pagy", "~> 43.2"

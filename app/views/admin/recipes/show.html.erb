@@ -1,0 +1,64 @@
+<div class="mb-4">
+  <%= link_to '&larr; Back to Recipes'.html_safe, admin_recipes_path, class: 'text-indigo-600 hover:text-indigo-900' %>
+</div>
+
+<div class="bg-white shadow rounded-lg p-6">
+  <h1 class="text-2xl font-bold mb-4"><%= @recipe.title %></h1>
+
+  <dl class="grid grid-cols-2 gap-4 mb-6">
+    <div>
+      <dt class="text-sm font-medium text-gray-500">User</dt>
+      <dd class="text-sm"><%= link_to @recipe.user&.email, admin_user_path(@recipe.user), class: 'text-indigo-600 hover:text-indigo-900' %></dd>
+    </div>
+    <div>
+      <dt class="text-sm font-medium text-gray-500">Time</dt>
+      <dd class="text-sm text-gray-900"><%= @recipe.time || 'N/A' %></dd>
+    </div>
+    <div>
+      <dt class="text-sm font-medium text-gray-500">URL</dt>
+      <dd class="text-sm text-gray-900"><%= @recipe.url.present? ? link_to(@recipe.url, @recipe.url, target: '_blank', class: 'text-indigo-600 hover:text-indigo-900') : 'N/A' %></dd>
+    </div>
+    <div>
+      <dt class="text-sm font-medium text-gray-500">Dietary Preference</dt>
+      <dd class="text-sm text-gray-900"><%= @recipe.dietary_preference&.name || 'N/A' %></dd>
+    </div>
+    <div>
+      <dt class="text-sm font-medium text-gray-500">Created</dt>
+      <dd class="text-sm text-gray-900"><%= @recipe.created_at.strftime('%Y-%m-%d %H:%M') %></dd>
+    </div>
+  </dl>
+
+  <% if @recipe.description.present? %>
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold mb-2">Description</h2>
+      <p class="text-gray-700"><%= @recipe.description %></p>
+    </div>
+  <% end %>
+
+  <% if @recipe.ingredients.any? %>
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold mb-2">Ingredients</h2>
+      <ul class="list-disc list-inside text-gray-700">
+        <% @recipe.recipe_ingredients.includes(:ingredient).each do |ri| %>
+          <li><%= ri.ingredient.name %><%= " - #{ri.quantity}" if ri.quantity.present? %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if @recipe.categories.any? %>
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold mb-2">Categories</h2>
+      <div class="flex flex-wrap gap-2">
+        <% @recipe.categories.each do |cat| %>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"><%= cat.name %></span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="mt-6 pt-6 border-t">
+    <%= button_to 'Delete Recipe', admin_recipe_path(@recipe), method: :delete,
+          data: { confirm: 'Are you sure?' }, class: 'bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700' %>
+  </div>
+</div>

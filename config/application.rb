@@ -21,6 +21,12 @@ module EnhancedOnion
     config.load_defaults 7.1
     config.api_only = true
 
+    # Middleware for admin panel (ActionController::Base needs these)
+    config.middleware.use Rack::MethodOverride
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_enhanced_onion_admin_session'
+    config.middleware.use ActionDispatch::Flash
+
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.

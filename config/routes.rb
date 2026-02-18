@@ -8,6 +8,16 @@ Rails.application.routes.draw do
 
   post '/magic_link', to: 'magic_links#create'
 
+  namespace :admin do
+    get 'login', to: 'sessions#new'
+    post 'login', to: 'sessions#create'
+    get 'callback', to: 'sessions#callback'
+    delete 'logout', to: 'sessions#destroy'
+    resources :users, only: [:index, :show, :update]
+    resources :plans, only: [:index, :new, :create, :edit, :update]
+    resources :recipes, only: [:index, :show, :destroy]
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
