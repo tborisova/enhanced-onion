@@ -124,6 +124,7 @@ GEM
     concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
     crass (1.0.6)
+    csv (3.3.5)
     dartsass-sprockets (3.1.0)
       railties (>= 4.0.0)
       sassc-embedded (~> 1.69)
@@ -209,6 +210,10 @@ GEM
     honeybadger (5.29.1)
       logger
       ostruct
+    httparty (0.24.2)
+      csv
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     image_processing (1.13.0)
@@ -246,6 +251,8 @@ GEM
     mini_mime (1.1.5)
     minitest (5.25.1)
     msgpack (1.7.2)
+    multi_xml (0.8.1)
+      bigdecimal (>= 3.1, < 5)
     mutex_m (0.2.0)
     net-http (0.9.1)
       uri (>= 0.11.1)
@@ -356,6 +363,8 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.10)
       io-console (~> 0.5)
+    resend (1.0.0)
+      httparty (>= 0.21.0)
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -500,6 +509,7 @@ DEPENDENCIES
   rack-attack
   rack-cors
   rails (~> 7.1.3, >= 7.1.3.2)
+  resend
   rspec-rails (~> 7.0.0)
   rubocop
   ruby-vips
