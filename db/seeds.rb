@@ -8,37 +8,55 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+if Rails.env.production?
+  plan = Plan.create! name: 'Admin'
 
-%w(salt pepper eggs tomato potato cheese rice onion).each do |ingredient|
-  Ingredient.create! name: ingredient
-end
+  password = Devise.friendly_token
+  user = User.new(
+    email: 'ts.borisova3@gmail.com',
+    admin: true,
+    name: 'Tsvetelina',
+    plan: plan,
+    password:,
+    password_confirmation: password
+  )
+  user.save!
+else
+  %w[salt pepper eggs tomato potato cheese rice onion].each do |ingredient|
+    Ingredient.create! name: ingredient
+  end
 
-%w(breakfast lunch dinner salad dessert).each do |category|
-  Category.create! name: category
-end
+  %w[breakfast lunch dinner salad dessert].each do |category|
+    Category.create! name: category
+  end
 
-%w(meat vegeterian vegan).each do |preference|
-  DietaryPreference.create! name: preference
-end
+  %w[meat vegeterian vegan].each do |preference|
+    DietaryPreference.create! name: preference
+  end
 
-plan = Plan.create! name: 'Test', is_free: true
+  plan = Plan.create! name: 'Test', is_free: true
 
-u1 = User.create! plan: plan, name: 'Llama', email: 'llama@example.com', password: 'Test1234', password_confirmation: 'Test1234'
-u2 = User.create! plan: plan, name: 'Test', email: 'test@example.com', password: 'Test1234', password_confirmation: 'Test1234'
+  u1 = User.create! plan: plan, name: 'Llama', email: 'llama@example.com', password: 'Test1234',
+                    password_confirmation: 'Test1234'
+  u2 = User.create! plan: plan, name: 'Test', email: 'test@example.com', password: 'Test1234',
+                    password_confirmation: 'Test1234'
 
-recipe = u1.recipes.create! title: 'Test', description: 'Mix everything well'
-recipe.photo.attach(
-  io: File.open(Rails.root.join('spec', 'fixtures', 'logo.png')),
-  filename: 'logo.png',
-  content_type: 'image/png'
-)
+  recipe = u1.recipes.create! title: 'Test', description: 'Mix everything well'
+  recipe.photo.attach(
+    io: File.open(Rails.root.join('spec', 'fixtures', 'logo.png')),
+    filename: 'logo.png',
+    content_type: 'image/png'
+  )
 
-u1.recipes.create! title: 'Test 2', description: 'Mix everything well'
+  u1.recipes.create! title: 'Test 2', description: 'Mix everything well'
 
-1.upto(200).each do |x|
-  r = u.recipes.create! title: 'Test', description: 'Mix everything well', dietary_preference_id: DietaryPreference.pluck(:id).sample
+  1.upto(200).each do |x|
+    r = u.recipes.create! title: 'Test', description: 'Mix everything well',
+                          dietary_preference_id: DietaryPreference.pluck(:id).sample
 
-  RecipeCategory.create! recipe_id: r.id, category_id: Category.pluck(:id).sample
+    RecipeCategory.create! recipe_id: r.id, category_id: Category.pluck(:id).sample
 
-  RecipeIngredient.create! recipe_id: r.id, ingredient_id: Ingredient.pluck(:id).sample, quantity: "#{x} pcs"
+    RecipeIngredient.create! recipe_id: r.id, ingredient_id: Ingredient.pluck(:id).sample, quantity: "#{x} pcs"
+  end
+
 end
