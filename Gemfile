@@ -38,7 +38,7 @@ gem 'resend'
 # gem 'simple_form'
 
 # gem 'bootstrap'
-gem 'dartsass-sprockets'
+# gem 'dartsass-sprockets'
 gem 'pry', '~> 0.14.2'
 gem 'rubocop'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
