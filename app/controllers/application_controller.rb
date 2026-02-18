@@ -8,7 +8,7 @@ class ApplicationController < ActionController::API
         decoded_token =
           JWT.decode(
             jwt_token,
-            Rails.application.credentials.devise.jwt_secret_key,
+            ENV.fetch('JWT_SECRET_KEY', 'test'),
             true,
             algorithm: 'HS256'
           )
