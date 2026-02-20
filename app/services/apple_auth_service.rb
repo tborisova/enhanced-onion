@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class AppleAuthService
-  class VerificationError < StandardError; end
+  APPLE_JWKS_URL = 'https://appleid.apple.com/auth/keys'
+  APPLE_ISSUER = 'https://appleid.apple.com'
 
   Result = Struct.new(:success?, :user_id, :email, :error, keyword_init: true)
 
@@ -11,42 +12,29 @@ class AppleAuthService
   end
 
   def verify
-    id_token = AppleID::IdToken.new(@identity_token)
-    id_token.verify!(
-      client: apple_client,
-      access_token: nil
-    )
-
-    Result.new(
-      success?: true,
-      user_id: id_token.sub,
-      email: id_token.email,
-      error: nil
-    )
-  rescue AppleID::IdToken::VerificationFailed => e
-    Result.new(
-      success?: false,
-      user_id: nil,
-      email: nil,
-      error: "Token verification failed: #{e.message}"
-    )
+    claims = decode_and_verify!
+    Result.new(success?: true, user_id: claims['sub'], email: claims['email'], error: nil)
   rescue StandardError => e
-    Result.new(
-      success?: false,
-      user_id: nil,
-      email: nil,
-      error: "Verification error: #{e.message}"
-    )
+    Result.new(success?: false, user_id: nil, email: nil, error: "Token verification failed: #{e.message}")
   end
 
   private
 
-  def apple_client
-    @apple_client ||= AppleID::Client.new(
-      identifier: @expected_audience,
-      team_id: Rails.application.credentials.dig(:apple, :team_id),
-      key_id: Rails.application.credentials.dig(:apple, :key_id),
-      private_key: Rails.application.credentials.dig(:apple, :private_key)
-    )
+  def decode_and_verify!
+    jwk_set = JSON::JWK::Set.new(fetch_apple_jwks)
+    claims = JSON::JWT.decode(@identity_token, jwk_set)
+
+    raise 'Invalid issuer' unless claims['iss'] == APPLE_ISSUER
+    raise 'Invalid audience' unless Array(claims['aud']).include?(@expected_audience)
+    raise 'Token has expired' if claims['exp'].to_i < Time.now.to_i
+
+    claims
+  end
+
+  def fetch_apple_jwks
+    response = Faraday.get(APPLE_JWKS_URL)
+    raise 'Failed to fetch Apple public keys' unless response.success?
+
+    JSON.parse(response.body)
   end
 end

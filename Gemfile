@@ -78,7 +78,7 @@ end
 gem 'graphiql-rails', group: :development
 gem 'graphql', '~> 2.3'
 
-gem 'apple_id'
+gem 'omniauth-apple'
 gem 'devise'
 gem 'devise-jwt'
 gem 'pg'

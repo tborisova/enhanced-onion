@@ -22,6 +22,7 @@ class AppleAuthenticationsController < ApplicationController
     else
       password = Devise.friendly_token
 
+      show_intro = user.blank?
       user ||= User.create!(
         password:,
         password_confirmation: password,
@@ -33,7 +34,7 @@ class AppleAuthenticationsController < ApplicationController
 
       token = Warden::JWTAuth::UserEncoder.new.call(user, :user, nil)
       @current_user = user
-      render json: { token: token[0], error: nil, name: user.name, email: user.email }
+      render json: { token: token[0], error: nil, name: user.name, email: user.email, show_intro: }
     end
   end
 end
