@@ -17,6 +17,7 @@ class MagicLinksController < ApplicationController
         User.new password:, password_confirmation: password, name:, email: email, plan_id: plan.id, missing_name: true
 
       if user.valid?
+        user.plan_id = (Plan.find_by(is_free: false) || Plan.find_by_name('Standard plan')).id
         user.save
         user.generate_login_token!
         UserMailer.magic_link(user).deliver_later
