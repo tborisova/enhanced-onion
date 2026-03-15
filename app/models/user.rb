@@ -41,8 +41,8 @@ class User < ApplicationRecord
           remaining_recipes_count: nil
         }
       else
-        recipes_count = recipes.count
-        images_count = recipes.joins(:photo_attachment).count
+        recipes_count = recipes.count.presence || 0
+        images_count = recipes.joins(:photo_attachment).count.presence || 0
 
         {
           free: false,
