@@ -9,6 +9,7 @@ class AppleAuthenticationsController < ApplicationController
     verification = AppleAuthService.new(identity_token: identity_token).verify
 
     unless verification.success?
+      Rails.logger.error("Apple auth failed: #{verification.error}")
       return render json: { token: nil, error: verification.error, name: nil, email: nil }, status: :unauthorized
     end
 
