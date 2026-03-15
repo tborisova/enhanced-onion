@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show, :update]
     resources :plans, only: [:index, :new, :create, :edit, :update]
     resources :recipes, only: [:index, :show, :destroy]
+    resources :categories, only: [:index, :new, :create, :destroy]
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
