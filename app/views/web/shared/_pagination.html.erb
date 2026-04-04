@@ -1,0 +1,12 @@
+<% if @pagy.pages > 1 %>
+  <div class="mt-8">
+    <style>
+      .pagy.series-nav { display: flex; gap: 0.25rem; justify-content: center; align-items: center; }
+      .pagy.series-nav a { padding: 0.5rem 0.75rem; border-radius: 0.5rem; font-size: 0.875rem; color: #480D2A; text-decoration: none; border: 1px solid #ffd5bb; background: white; }
+      .pagy.series-nav a:hover:not([aria-disabled]) { background-color: #FFF5E6; border-color: #ED744D; }
+      .pagy.series-nav a[aria-disabled="true"] { color: #c4a999; cursor: default; }
+      .pagy.series-nav a[aria-current="page"] { background-color: #ED744D; color: #ffffff; border-color: #ED744D; font-weight: 600; cursor: default; }
+    </style>
+    <%= @pagy.series_nav.html_safe %>
+  </div>
+<% end %>

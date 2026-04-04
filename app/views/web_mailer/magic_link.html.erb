@@ -1,0 +1,7 @@
+<p>Hi<%= @user.name.present? ? " #{@user.name}" : '' %>,</p>
+
+<p>Click the link below to sign in to Curry on Mars on the web:</p>
+
+<p><a href="<%= @login_url %>"><%= @login_url %></a></p>
+
+<p>This link expires in 15 minutes.</p>

@@ -8,6 +8,14 @@ Rails.application.routes.draw do
 
   post '/magic_link', to: 'magic_links#create'
 
+  namespace :web do
+    get 'login', to: 'sessions#new'
+    post 'login', to: 'sessions#create'
+    get 'callback', to: 'sessions#callback'
+    delete 'logout', to: 'sessions#destroy'
+    resources :recipes, only: [:index, :show]
+  end
+
   namespace :admin do
     get 'login', to: 'sessions#new'
     post 'login', to: 'sessions#create'
