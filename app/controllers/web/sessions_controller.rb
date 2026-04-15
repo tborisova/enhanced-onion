@@ -2,6 +2,8 @@ module Web
   class SessionsController < ActionController::Base
     layout 'web'
 
+    before_action :redirect_if_authenticated, only: [:new, :create, :callback]
+
     def new
     end
 
@@ -31,6 +33,14 @@ module Web
     def destroy
       session.delete(:web_user_id)
       redirect_to web_login_path, notice: 'Logged out.'
+    end
+
+    private
+
+    def redirect_if_authenticated
+      if User.exists?(id: session[:web_user_id], suspended: false)
+        redirect_to web_recipes_path
+      end
     end
   end
 end
