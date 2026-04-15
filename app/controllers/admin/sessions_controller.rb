@@ -2,6 +2,8 @@ module Admin
   class SessionsController < ActionController::Base
     layout 'admin'
 
+    before_action :redirect_if_authenticated, only: [:new, :create, :callback]
+
     def new
     end
 
@@ -31,6 +33,15 @@ module Admin
     def destroy
       session.delete(:admin_user_id)
       redirect_to admin_login_path, notice: 'Logged out.'
+    end
+
+    private
+
+    def redirect_if_authenticated
+      user = User.find_by(id: session[:admin_user_id])
+      if user&.admin? && !user.suspended
+        redirect_to admin_users_path
+      end
     end
   end
 end
