@@ -31,26 +31,25 @@ class User < ApplicationRecord
   end
 
   def plan_limits
-    @plan_limits ||=
-      if plan.is_free
-        {
-          free: true,
-          recipes_quota_reached: false,
-          images_quota_reached: false,
-          remaining_images_count: nil,
-          remaining_recipes_count: nil
-        }
-      else
-        recipes_count = recipes.count.presence || 0
-        images_count = recipes.joins(:photo_attachment).count.presence || 0
+    if plan.is_free
+      {
+        free: true,
+        recipes_quota_reached: false,
+        images_quota_reached: false,
+        remaining_images_count: nil,
+        remaining_recipes_count: nil
+      }
+    else
+      recipes_count = recipes.count.presence || 0
+      images_count = recipes.joins(:photo_attachment).count.presence || 0
 
-        {
-          free: false,
-          recipes_quota_reached: plan.recipes_quota < recipes_count,
-          images_quota_reached: plan.images_quota < images_count,
-          remaining_recipes_count: (plan.recipes_quota - recipes_count).clamp(0, Float::INFINITY),
-          remaining_images_count: (plan.images_quota - images_count).clamp(0, Float::INFINITY)
-        }
-      end
+      {
+        free: false,
+        recipes_quota_reached: plan.recipes_quota < recipes_count,
+        images_quota_reached: plan.images_quota < images_count,
+        remaining_recipes_count: (plan.recipes_quota - recipes_count).clamp(0, Float::INFINITY),
+        remaining_images_count: (plan.images_quota - images_count).clamp(0, Float::INFINITY)
+      }
+    end
   end
 end
