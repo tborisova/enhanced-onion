@@ -53,8 +53,8 @@ module Types
       case dietary_preference.name
       when 'meat'
         DietaryPreferenceKindType.values['MEAT'].value
-      when 'vegeterian'
-        DietaryPreferenceKindType.values['VEGETERIAN'].value
+      when 'vegetarian'
+        DietaryPreferenceKindType.values['VEGETARIAN'].value
       else
         DietaryPreferenceKindType.values['VEGAN'].value
       end

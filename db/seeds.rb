@@ -30,7 +30,7 @@ else
     Category.create! name: category
   end
 
-  %w[meat vegeterian vegan].each do |preference|
+  %w[meat vegetarian vegan].each do |preference|
     DietaryPreference.create! name: preference
   end
 
