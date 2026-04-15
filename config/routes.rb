@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :plans, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :recipes, only: [:index, :show, :destroy]
     resources :categories, only: [:index, :new, :create, :destroy]
-    resources :dietary_preferences, only: [:index, :new, :create, :destroy]
+    resources :dietary_preferences, only: [:index, :new, :create, :edit, :update, :destroy]
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

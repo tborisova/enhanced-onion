@@ -17,6 +17,19 @@ module Admin
       end
     end
 
+    def edit
+      @dietary_preference = DietaryPreference.find(params[:id])
+    end
+
+    def update
+      @dietary_preference = DietaryPreference.find(params[:id])
+      if @dietary_preference.update(dietary_preference_params)
+        redirect_to admin_dietary_preferences_path, notice: 'Dietary preference updated.'
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
+
     def destroy
       @dietary_preference = DietaryPreference.find(params[:id])
       @dietary_preference.destroy

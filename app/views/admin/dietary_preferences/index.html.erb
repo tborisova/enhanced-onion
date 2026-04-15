@@ -15,7 +15,8 @@
       <% @dietary_preferences.each do |dietary_preference| %>
         <tr>
           <td class="px-6 py-4 text-sm font-medium text-gray-900"><%= dietary_preference.name %></td>
-          <td class="px-6 py-4 text-sm">
+          <td class="px-6 py-4 text-sm space-x-3">
+            <%= link_to 'Edit', edit_admin_dietary_preference_path(dietary_preference), class: 'text-indigo-600 hover:text-indigo-900' %>
             <%= button_to 'Delete', admin_dietary_preference_path(dietary_preference), method: :delete, class: 'text-red-600 hover:text-red-900', data: { confirm: 'Are you sure?' } %>
           </td>
         </tr>
