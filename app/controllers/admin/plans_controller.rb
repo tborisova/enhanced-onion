@@ -30,6 +30,12 @@ module Admin
       end
     end
 
+    def destroy
+      @plan = Plan.find(params[:id])
+      @plan.destroy
+      redirect_to admin_plans_path, notice: 'Plan deleted.'
+    end
+
     private
 
     def plan_params

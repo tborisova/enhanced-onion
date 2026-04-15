@@ -23,8 +23,9 @@
           <td class="px-6 py-4 text-sm text-gray-500"><%= plan.is_free ? 'Yes' : 'No' %></td>
           <td class="px-6 py-4 text-sm text-gray-500"><%= plan.recipes_quota %></td>
           <td class="px-6 py-4 text-sm text-gray-500"><%= plan.images_quota %></td>
-          <td class="px-6 py-4 text-sm">
+          <td class="px-6 py-4 text-sm space-x-3">
             <%= link_to 'Edit', edit_admin_plan_path(plan), class: 'text-indigo-600 hover:text-indigo-900' %>
+            <%= button_to 'Delete', admin_plan_path(plan), method: :delete, class: 'text-red-600 hover:text-red-900', data: { confirm: 'Are you sure?' } %>
           </td>
         </tr>
       <% end %>

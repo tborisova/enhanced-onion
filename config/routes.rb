@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     get 'callback', to: 'sessions#callback'
     delete 'logout', to: 'sessions#destroy'
     resources :users, only: [:index, :show, :update]
-    resources :plans, only: [:index, :new, :create, :edit, :update]
+    resources :plans, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :recipes, only: [:index, :show, :destroy]
     resources :categories, only: [:index, :new, :create, :destroy]
     resources :dietary_preferences, only: [:index, :new, :create, :destroy]
