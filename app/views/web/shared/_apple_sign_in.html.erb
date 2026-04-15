@@ -1,0 +1,30 @@
+<% apple_client_id = Rails.application.credentials.dig(:apple, :web_client_id) %>
+<% apple_redirect_uri = 'https://enhanced-onion.onrender.com/' %>
+
+<% if apple_client_id.present? %>
+  <div class="mt-6">
+    <div class="relative my-4">
+      <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-curry-peach"></div></div>
+      <div class="relative flex justify-center text-xs"><span class="bg-white px-2 text-curry-maroon/50">or</span></div>
+    </div>
+
+    <div id="appleid-signin"
+         class="signin-button w-full"
+         data-color="black"
+         data-border="true"
+         data-type="sign-in"
+         data-mode="center-align"
+         data-width="100%"
+         data-height="44"></div>
+
+    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+    <script type="text/javascript">
+      AppleID.auth.init({
+        clientId: <%= apple_client_id.to_json.html_safe %>,
+        scope: 'name email',
+        redirectURI: <%= apple_redirect_uri.to_json.html_safe %>,
+        usePopup: false
+      });
+    </script>
+  </div>
+<% end %>

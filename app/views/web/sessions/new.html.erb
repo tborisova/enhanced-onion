@@ -15,5 +15,12 @@
         Send Magic Link
       </button>
     <% end %>
+
+    <%= render 'web/shared/apple_sign_in' %>
+
+    <p class="text-center text-sm text-curry-maroon/60 mt-6">
+      New here?
+      <%= link_to 'Create an account', web_register_path, class: 'text-curry-orange hover:underline font-medium' %>
+    </p>
   </div>
 </div>

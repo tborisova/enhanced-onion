@@ -1,0 +1,80 @@
+<div class="mb-6">
+  <%= link_to web_recipes_path, class: 'inline-flex items-center text-curry-orange hover:text-curry-orange-light font-medium text-sm transition' do %>
+    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+    Back to recipes
+  <% end %>
+</div>
+
+<div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm p-6 sm:p-8">
+  <h1 class="text-2xl font-bold text-curry-maroon mb-6">Add a recipe</h1>
+
+  <%= form_with url: web_recipes_path, method: :post, multipart: true, local: true, class: 'space-y-5' do |f| %>
+    <div>
+      <label class="block text-sm font-medium text-curry-maroon mb-1">Title</label>
+      <input type="text" name="title" value="<%= @recipe.title %>" required
+             class="block w-full rounded-lg border border-curry-peach bg-curry-cream px-4 py-2.5 text-curry-maroon focus:border-curry-orange focus:ring-2 focus:ring-curry-orange/20 focus:outline-none transition">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-curry-maroon mb-1">Description</label>
+      <textarea name="description" rows="4"
+                class="block w-full rounded-lg border border-curry-peach bg-curry-cream px-4 py-2.5 text-curry-maroon focus:border-curry-orange focus:ring-2 focus:ring-curry-orange/20 focus:outline-none transition"><%= @recipe.description %></textarea>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-curry-maroon mb-1">Time</label>
+        <input type="text" name="time" value="<%= @recipe.time %>" placeholder="e.g. 30 min"
+               class="block w-full rounded-lg border border-curry-peach bg-curry-cream px-4 py-2.5 text-curry-maroon focus:border-curry-orange focus:ring-2 focus:ring-curry-orange/20 focus:outline-none transition">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-curry-maroon mb-1">Source URL</label>
+        <input type="url" name="url" value="<%= @recipe.url %>" placeholder="https://..."
+               class="block w-full rounded-lg border border-curry-peach bg-curry-cream px-4 py-2.5 text-curry-maroon focus:border-curry-orange focus:ring-2 focus:ring-curry-orange/20 focus:outline-none transition">
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-curry-maroon mb-1">Photo</label>
+      <input type="file" name="photo" accept="image/*"
+             class="block w-full text-sm text-curry-maroon file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-curry-orange file:text-white hover:file:bg-curry-orange-light">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-curry-maroon mb-1">Dietary preference</label>
+      <select name="dietary_preference_id"
+              class="block w-full rounded-lg border border-curry-peach bg-curry-cream px-4 py-2.5 text-curry-maroon focus:border-curry-orange focus:ring-2 focus:ring-curry-orange/20 focus:outline-none transition">
+        <option value="">None</option>
+        <% @dietary_preferences.each do |dp| %>
+          <option value="<%= dp.id %>"><%= dp.name.capitalize %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-curry-maroon mb-2">Categories</label>
+      <div class="flex flex-wrap gap-2">
+        <% @categories.each do |cat| %>
+          <label class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-curry-cream text-sm text-curry-maroon border border-curry-peach cursor-pointer hover:bg-curry-peach/50 transition">
+            <input type="checkbox" name="category_ids[]" value="<%= cat.id %>" class="accent-curry-orange">
+            <span><%= cat.name %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-curry-maroon mb-1">Ingredients</label>
+      <p class="text-xs text-curry-maroon/50 mb-2">One per line. Use <code>name - quantity</code> (e.g. <code>Onion - 2</code>).</p>
+      <textarea name="ingredients" rows="6" placeholder="Onion - 2&#10;Garlic - 3 cloves&#10;Olive oil - 2 tbsp"
+                class="block w-full rounded-lg border border-curry-peach bg-curry-cream px-4 py-2.5 text-curry-maroon font-mono text-sm focus:border-curry-orange focus:ring-2 focus:ring-curry-orange/20 focus:outline-none transition"></textarea>
+    </div>
+
+    <div class="flex gap-3 pt-2">
+      <button type="submit" class="bg-curry-orange text-white py-2.5 px-6 rounded-lg font-semibold hover:bg-curry-orange-light transition shadow-md">
+        Save recipe
+      </button>
+      <%= link_to 'Cancel', web_recipes_path, class: 'bg-curry-cream-dark text-curry-maroon py-2.5 px-6 rounded-lg font-medium hover:bg-curry-peach transition' %>
+    </div>
+  <% end %>
+</div>

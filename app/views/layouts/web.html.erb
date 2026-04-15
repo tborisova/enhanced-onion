@@ -39,6 +39,7 @@
             <% end %>
           </div>
           <div class="flex items-center space-x-4">
+            <%= link_to 'New Recipe', new_web_recipe_path, class: 'bg-curry-orange text-white px-3 py-1.5 rounded-lg text-sm font-semibold hover:bg-curry-orange-light transition' %>
             <span class="text-curry-peach text-sm"><%= User.find_by(id: session[:web_user_id])&.email %></span>
             <%= button_to 'Log out', web_logout_path, method: :delete, class: 'text-curry-cream hover:text-curry-orange text-sm font-medium transition' %>
           </div>

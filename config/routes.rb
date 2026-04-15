@@ -13,7 +13,10 @@ Rails.application.routes.draw do
     post 'login', to: 'sessions#create'
     get 'callback', to: 'sessions#callback'
     delete 'logout', to: 'sessions#destroy'
-    resources :recipes, only: [:index, :show]
+    get 'register', to: 'registrations#new'
+    post 'register', to: 'registrations#create'
+    post 'apple/callback', to: 'apple_authentications#create', as: :apple_callback
+    resources :recipes, only: [:index, :show, :new, :create]
   end
 
   namespace :admin do
@@ -37,6 +40,8 @@ Rails.application.routes.draw do
   resources :uploads do
     post :upload, on: :collection
   end
+
+  post '/', to: 'web/apple_authentications#create'
   # Defines the root path route ("/")
   # root "posts#index"
 end
