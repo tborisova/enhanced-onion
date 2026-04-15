@@ -22,4 +22,8 @@
       <%= link_to 'Cancel', admin_dietary_preferences_path, class: 'text-gray-600 hover:text-gray-900' %>
     </div>
   <% end %>
+
+  <div class="mt-6 pt-6 border-t border-gray-200">
+    <%= button_to 'Delete', admin_dietary_preference_path(@dietary_preference), method: :delete, class: 'bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 cursor-pointer', data: { confirm: 'Are you sure?' } %>
+  </div>
 </div>
