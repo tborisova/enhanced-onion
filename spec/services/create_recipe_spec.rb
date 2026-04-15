@@ -4,18 +4,31 @@ describe CreateRecipe do
   let(:recipe_attributes) { { title: 'Title', description: 'Description' } }
 
   it 'does not create recipe when recipe quota is reached' do
-    user = create_user_with_plan recipes_quota: 0, images_quota: 0, is_free: false
+    user = create_user_with_plan recipes_quota: 1, images_quota: 5, is_free: false
     create :recipe, user: user
 
     response = CreateRecipe.execute({ title: 'Title', description: 'Description' }, user)
 
-    expected_limits = {
+    expect(response).to have_attributes(recipe: nil, errors: nil)
+    expect(user.plan_limits).to include(
       recipes_quota_reached: true,
       images_quota_reached: false,
-      remaining_images_count: 0,
       remaining_recipes_count: 0
-    }
-    expect(response).to have_attributes(recipe: nil, limits: expected_limits)
+    )
+  end
+
+  it 'does not create recipe when recipes count equals the quota' do
+    user = create_user_with_plan recipes_quota: 5, images_quota: 5, is_free: false
+    create_list :recipe, 5, user: user
+
+    response = CreateRecipe.execute({ title: 'Title', description: 'Description' }, user)
+
+    expect(response).to have_attributes(recipe: nil, errors: nil)
+    expect(user.plan_limits).to include(
+      recipes_quota_reached: true,
+      images_quota_reached: false,
+      remaining_recipes_count: 0
+    )
   end
 
   it 'does not create recipe with photo if images quota is reached' do
@@ -24,13 +37,11 @@ describe CreateRecipe do
 
     response = CreateRecipe.execute({ title: 'Title', description: 'Description', photo_id: '1' }, user)
 
-    expected_limits = {
+    expect(response).to have_attributes(recipe: nil, errors: nil)
+    expect(user.plan_limits).to include(
       recipes_quota_reached: true,
-      images_quota_reached: true,
-      remaining_images_count: 0,
-      remaining_recipes_count: 0
-    }
-    expect(response).to have_attributes(recipe: nil, limits: expected_limits)
+      images_quota_reached: true
+    )
   end
 
   describe 'with unlimited quota' do

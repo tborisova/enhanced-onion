@@ -45,8 +45,8 @@ class User < ApplicationRecord
 
       {
         free: false,
-        recipes_quota_reached: plan.recipes_quota < recipes_count,
-        images_quota_reached: plan.images_quota < images_count,
+        recipes_quota_reached: plan.recipes_quota <= recipes_count,
+        images_quota_reached: plan.images_quota <= images_count,
         remaining_recipes_count: (plan.recipes_quota - recipes_count).clamp(0, Float::INFINITY),
         remaining_images_count: (plan.images_quota - images_count).clamp(0, Float::INFINITY)
       }
