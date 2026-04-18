@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get 'login', to: 'sessions#new'
     post 'login', to: 'sessions#create'
     get 'callback', to: 'sessions#callback'
+    post 'apple/callback', to: 'sessions#apple_callback'
     delete 'logout', to: 'sessions#destroy'
     resources :recipes, only: [:index, :show]
   end
