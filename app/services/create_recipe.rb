@@ -4,9 +4,8 @@ module CreateRecipe
   Response = Data.define :recipe, :errors
 
   def execute(arguments, user)
-    if user.plan_limits[:recipes_quota_reached] || user.plan_limits[:images_quota_reached]
-      return Response.new recipe: nil, errors: nil
-    end
+    return Response.new recipe: nil, errors: nil if user.plan_limits[:recipes_quota_reached]
+    return Response.new recipe: nil, errors: nil if arguments[:photo_id] && user.plan_limits[:images_quota_reached]
 
     attributes = arguments.slice(:title, :description).merge(user_id: user.id)
 

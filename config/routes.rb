@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    get '/', to: 'dashboard#index', as: :dashboard
     get 'login', to: 'sessions#new'
     post 'login', to: 'sessions#create'
     get 'callback', to: 'sessions#callback'
@@ -26,6 +27,7 @@ Rails.application.routes.draw do
     resources :recipes, only: [:index, :show, :destroy]
     resources :categories, only: [:index, :new, :create, :destroy]
     resources :dietary_preferences, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :temporary_images, only: [:index, :destroy]
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

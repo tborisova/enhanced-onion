@@ -14,11 +14,13 @@
         <div class="flex justify-between h-16 items-center">
           <div class="flex items-center space-x-8">
             <span class="text-lg font-bold text-gray-900">Admin</span>
+            <%= link_to 'Dashboard', admin_dashboard_path, class: 'text-gray-600 hover:text-gray-900' %>
             <%= link_to 'Users', admin_users_path, class: 'text-gray-600 hover:text-gray-900' %>
             <%= link_to 'Plans', admin_plans_path, class: 'text-gray-600 hover:text-gray-900' %>
             <%= link_to 'Recipes', admin_recipes_path, class: 'text-gray-600 hover:text-gray-900' %>
             <%= link_to 'Categories', admin_categories_path, class: 'text-gray-600 hover:text-gray-900' %>
             <%= link_to 'Dietary Preferences', admin_dietary_preferences_path, class: 'text-gray-600 hover:text-gray-900' %>
+            <%= link_to 'Temp Images', admin_temporary_images_path, class: 'text-gray-600 hover:text-gray-900' %>
           </div>
           <div>
             <%= button_to 'Logout', admin_logout_path, method: :delete, class: 'text-gray-600 hover:text-gray-900' %>
