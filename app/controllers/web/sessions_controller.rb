@@ -6,6 +6,7 @@ module Web
     APPLE_WEB_REDIRECT_URI = 'https://enhanced-onion.onrender.com/web/apple/callback'
     APPLE_STATE_TTL = 10.minutes
 
+    skip_before_action :verify_authenticity_token, only: [:apple_callback]
     before_action :redirect_if_authenticated, only: [:new, :create, :callback]
 
     def new
