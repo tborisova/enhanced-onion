@@ -1,0 +1,33 @@
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <%= link_to admin_users_path, class: 'bg-white shadow rounded-lg p-6 hover:shadow-md transition-shadow' do %>
+    <p class="text-sm font-medium text-gray-500">Users</p>
+    <p class="mt-2 text-3xl font-bold text-gray-900"><%= @users_count %></p>
+  <% end %>
+
+  <%= link_to admin_recipes_path, class: 'bg-white shadow rounded-lg p-6 hover:shadow-md transition-shadow' do %>
+    <p class="text-sm font-medium text-gray-500">Recipes</p>
+    <p class="mt-2 text-3xl font-bold text-gray-900"><%= @recipes_count %></p>
+  <% end %>
+
+  <%= link_to admin_categories_path, class: 'bg-white shadow rounded-lg p-6 hover:shadow-md transition-shadow' do %>
+    <p class="text-sm font-medium text-gray-500">Categories</p>
+    <p class="mt-2 text-3xl font-bold text-gray-900"><%= @categories_count %></p>
+  <% end %>
+
+  <%= link_to admin_plans_path, class: 'bg-white shadow rounded-lg p-6 hover:shadow-md transition-shadow' do %>
+    <p class="text-sm font-medium text-gray-500">Plans</p>
+    <p class="mt-2 text-3xl font-bold text-gray-900"><%= @plans_count %></p>
+  <% end %>
+
+  <%= link_to admin_dietary_preferences_path, class: 'bg-white shadow rounded-lg p-6 hover:shadow-md transition-shadow' do %>
+    <p class="text-sm font-medium text-gray-500">Dietary Preferences</p>
+    <p class="mt-2 text-3xl font-bold text-gray-900"><%= @dietary_preferences_count %></p>
+  <% end %>
+
+  <%= link_to admin_temporary_images_path, class: 'bg-white shadow rounded-lg p-6 hover:shadow-md transition-shadow' do %>
+    <p class="text-sm font-medium text-gray-500">Temporary Images</p>
+    <p class="mt-2 text-3xl font-bold text-gray-900"><%= @temporary_images_count %></p>
+  <% end %>
+</div>
