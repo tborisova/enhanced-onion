@@ -6,8 +6,8 @@ module Types
     field :has_free_plan, Boolean, null: false
     field :recipes_quota_reached, Boolean, null: false
     field :images_quota_reached, Boolean, null: false
-    field :remaining_recipes_count, Boolean, null: true
-    field :remaining_images_count, Boolean, null: true
+    field :remaining_recipes_count, Integer, null: true
+    field :remaining_images_count, Integer, null: true
     field :suspended, Boolean, null: false
     field :show_name, Boolean, null: false
 
