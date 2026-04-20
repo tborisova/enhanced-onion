@@ -1,33 +1,33 @@
 <div class="mb-6">
-  <%= link_to web_recipes_path, class: 'inline-flex items-center text-curry-orange hover:text-curry-orange-light font-medium text-sm transition' do %>
+  <%= link_to web_recipes_path, class: 'inline-flex items-center text-burgundy hover:text-burgundy-soft font-semibold text-sm transition' do %>
     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
     Back to recipes
   <% end %>
 </div>
 
-<div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+<div class="bg-cream-light rounded-3xl shadow-sm border border-peach-soft/60 overflow-hidden">
   <% if @recipe.photo.attached? %>
-    <div class="w-full max-h-[400px] overflow-hidden">
+    <div class="w-full max-h-[420px] overflow-hidden bg-peach-soft/40">
       <%= image_tag @recipe.photo, class: 'w-full object-cover' %>
     </div>
   <% end %>
 
-  <div class="p-6 sm:p-8">
-    <h1 class="text-3xl font-bold text-curry-maroon mb-4"><%= @recipe.title %></h1>
+  <div class="p-6 sm:p-10">
+    <h1 class="font-display text-5xl text-burgundy leading-tight mb-5"><%= @recipe.title %></h1>
 
-    <div class="flex flex-wrap gap-2 mb-6">
+    <div class="flex flex-wrap gap-2 mb-8">
       <% if @recipe.dietary_preference %>
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-curry-cream text-curry-maroon">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-peach text-burgundy">
           <%= @recipe.dietary_preference.name.capitalize %>
         </span>
       <% end %>
       <% @recipe.categories.each do |cat| %>
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-curry-peach/50 text-curry-maroon">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-peach-soft/60 text-burgundy">
           <%= cat.name %>
         </span>
       <% end %>
       <% if @recipe.time.present? %>
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-curry-cream-dark text-curry-maroon/70">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-cream text-clay">
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           <%= @recipe.time %>
         </span>
@@ -35,28 +35,28 @@
     </div>
 
     <% if @recipe.url.present? %>
-      <div class="mb-6 p-4 bg-curry-cream rounded-lg">
-        <p class="text-sm text-curry-maroon/60 mb-1">Source</p>
-        <%= link_to @recipe.url.truncate(60), @recipe.url, target: '_blank', rel: 'noopener', class: 'text-curry-orange hover:text-curry-orange-light text-sm font-medium break-all transition' %>
+      <div class="mb-8 p-4 bg-cream rounded-2xl border border-peach-soft/60">
+        <p class="text-xs uppercase tracking-widest text-clay mb-1">Source</p>
+        <%= link_to @recipe.url.truncate(60), @recipe.url, target: '_blank', rel: 'noopener', class: 'text-burgundy hover:text-burgundy-soft font-semibold break-all transition underline decoration-peach hover:decoration-burgundy' %>
       </div>
     <% end %>
 
     <% if @recipe.description.present? %>
-      <div class="mb-8">
-        <h2 class="text-lg font-semibold text-curry-maroon mb-3">Description</h2>
-        <p class="text-curry-maroon/80 leading-relaxed whitespace-pre-line"><%= @recipe.description %></p>
+      <div class="mb-10">
+        <h2 class="font-display text-3xl text-burgundy mb-3">Description</h2>
+        <p class="text-ink/90 leading-relaxed whitespace-pre-line"><%= @recipe.description %></p>
       </div>
     <% end %>
 
     <% if @recipe.recipe_ingredients.any? %>
-      <div class="mb-8">
-        <h2 class="text-lg font-semibold text-curry-maroon mb-3">Ingredients</h2>
+      <div class="mb-10">
+        <h2 class="font-display text-3xl text-burgundy mb-4">Ingredients</h2>
         <ul class="space-y-2">
           <% @recipe.recipe_ingredients.includes(:ingredient).each do |ri| %>
             <li class="flex items-start">
-              <span class="inline-block w-2 h-2 rounded-full bg-curry-orange mt-2 mr-3 flex-shrink-0"></span>
-              <span class="text-curry-maroon/80">
-                <strong><%= ri.ingredient.name %></strong><%= " — #{ri.quantity}" if ri.quantity.present? %>
+              <span class="inline-block w-2 h-2 rounded-full bg-burgundy mt-2 mr-3 flex-shrink-0"></span>
+              <span class="text-ink/90">
+                <strong class="text-burgundy"><%= ri.ingredient.name %></strong><%= " — #{ri.quantity}" if ri.quantity.present? %>
               </span>
             </li>
           <% end %>
@@ -64,8 +64,8 @@
       </div>
     <% end %>
 
-    <div class="pt-6 border-t border-curry-peach/30">
-      <p class="text-xs text-curry-maroon/40">Added on <%= @recipe.created_at.strftime('%B %d, %Y') %></p>
+    <div class="pt-6 border-t border-peach-soft/60">
+      <p class="text-xs text-clay">Added on <%= @recipe.created_at.strftime('%B %-d, %Y') %></p>
     </div>
   </div>
 </div>

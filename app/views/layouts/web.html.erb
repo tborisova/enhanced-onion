@@ -4,59 +4,68 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Curry on Mars</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            curry: {
-              orange: '#ED744D',
-              'orange-light': '#f08c6a',
-              maroon: '#480D2A',
-              'maroon-dark': '#400F29',
-              cream: '#FFF5E6',
-              'cream-dark': '#FDEDDD',
-              peach: '#ffd5bb',
-            }
+            burgundy: '#400F29',
+            'burgundy-soft': '#5A1A3A',
+            cream: '#FDEDDD',
+            'cream-light': '#FFF5E6',
+            peach: '#FFDBD1',
+            'peach-soft': '#FFD5BB',
+            clay: '#775749',
+            'clay-light': '#A08C84',
+            ink: '#201B19',
+          },
+          fontFamily: {
+            display: ['"Kalam"', '"Caveat"', 'cursive'],
+            body: ['"Nunito"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
           }
         }
       }
     }
   </script>
+  <style>
+    body { font-family: "Nunito", ui-sans-serif, system-ui, sans-serif; }
+    h1, h2, h3 { font-family: "Kalam", "Caveat", cursive; letter-spacing: 0.01em; }
+  </style>
   <%= csrf_meta_tags %>
 </head>
-<body class="bg-curry-cream min-h-screen relative">
-  <div class="fixed inset-0 z-0" style="background-image: url('/background-texture.png'); background-size: 400px; background-repeat: repeat; opacity: 0.08;"></div>
-  <div class="relative z-10 min-h-screen">
+<body class="bg-cream min-h-screen text-ink antialiased relative">
+  <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-32 -left-24 h-96 w-96 rounded-full bg-peach-soft/60 blur-3xl"></div>
+    <div class="absolute top-80 -right-32 h-[28rem] w-[28rem] rounded-full bg-peach/50 blur-3xl"></div>
+  </div>
+
   <% if session[:web_user_id] %>
-    <nav class="bg-curry-maroon shadow-lg">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-          <div class="flex items-center space-x-6">
-            <%= link_to web_recipes_path, class: 'flex items-center space-x-2' do %>
-              <span class="text-xl font-bold text-curry-cream">Curry on Mars</span>
-            <% end %>
-          </div>
-          <div class="flex items-center space-x-4">
-            <span class="text-curry-peach text-sm"><%= User.find_by(id: session[:web_user_id])&.email %></span>
-            <%= button_to 'Log out', web_logout_path, method: :delete, class: 'text-curry-cream hover:text-curry-orange text-sm font-medium transition' %>
-          </div>
+    <header class="sticky top-0 z-40 bg-cream/85 backdrop-blur border-b border-peach-soft/60">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+        <%= link_to web_recipes_path, class: 'group' do %>
+          <span class="font-display text-2xl text-burgundy leading-none group-hover:text-burgundy-soft transition">Curry on Mars</span>
+        <% end %>
+        <div class="flex items-center gap-4">
+          <span class="hidden sm:inline text-sm text-clay"><%= User.find_by(id: session[:web_user_id])&.email %></span>
+          <%= button_to 'Log out', web_logout_path, method: :delete, form: { class: 'inline' }, class: 'rounded-full border border-burgundy/30 text-burgundy text-sm font-semibold px-4 py-1.5 hover:bg-burgundy hover:text-cream-light transition' %>
         </div>
       </div>
-    </nav>
+    </header>
   <% end %>
 
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <% if flash[:notice] %>
-      <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg text-sm"><%= flash[:notice] %></div>
+      <div class="mb-6 px-4 py-3 rounded-2xl bg-peach/60 text-burgundy text-sm border border-peach-soft/60"><%= flash[:notice] %></div>
     <% end %>
     <% if flash[:alert] %>
-      <div class="mb-6 p-4 bg-red-100 text-red-800 rounded-lg text-sm"><%= flash[:alert] %></div>
+      <div class="mb-6 px-4 py-3 rounded-2xl bg-red-50 text-red-800 text-sm border border-red-200"><%= flash[:alert] %></div>
     <% end %>
 
     <%= yield %>
-  </div>
   </div>
 </body>
 </html>

@@ -1,64 +1,65 @@
-<div class="mb-8">
-  <h1 class="text-3xl font-bold text-curry-maroon mb-6">My Recipes</h1>
-
-  <%= form_tag web_recipes_path, method: :get, class: 'bg-white rounded-xl shadow-sm p-4 flex flex-wrap gap-3 items-end' do %>
-    <div class="flex-1 min-w-[200px]">
-      <label class="block text-xs font-medium text-curry-maroon/70 mb-1">Search</label>
-      <input type="text" name="term" value="<%= params[:term] %>" placeholder="Search recipes..."
-             class="block w-full rounded-lg border border-curry-peach bg-curry-cream px-3 py-2 text-sm text-curry-maroon placeholder-curry-maroon/40 focus:border-curry-orange focus:ring-2 focus:ring-curry-orange/20 focus:outline-none transition">
-    </div>
-    <div class="min-w-[160px]">
-      <label class="block text-xs font-medium text-curry-maroon/70 mb-1">Category</label>
-      <select name="category" class="block w-full rounded-lg border border-curry-peach bg-curry-cream px-3 py-2 text-sm text-curry-maroon focus:border-curry-orange focus:ring-2 focus:ring-curry-orange/20 focus:outline-none transition">
-        <option value="">All categories</option>
-        <% @categories.each do |cat| %>
-          <option value="<%= cat.id %>" <%= 'selected' if params[:category] == cat.id.to_s %>><%= cat.name %></option>
-        <% end %>
-      </select>
-    </div>
-    <div class="min-w-[160px]">
-      <label class="block text-xs font-medium text-curry-maroon/70 mb-1">Dietary</label>
-      <select name="dietary_preference" class="block w-full rounded-lg border border-curry-peach bg-curry-cream px-3 py-2 text-sm text-curry-maroon focus:border-curry-orange focus:ring-2 focus:ring-curry-orange/20 focus:outline-none transition">
-        <option value="">All</option>
-        <% @dietary_preferences.each do |dp| %>
-          <option value="<%= dp.id %>" <%= 'selected' if params[:dietary_preference] == dp.id.to_s %>><%= dp.name.capitalize %></option>
-        <% end %>
-      </select>
-    </div>
-    <div class="flex gap-2">
-      <button type="submit" class="bg-curry-orange text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-curry-orange-light transition">
-        Filter
-      </button>
-      <% if params[:term].present? || params[:category].present? || params[:dietary_preference].present? %>
-        <%= link_to 'Clear', web_recipes_path, class: 'bg-curry-cream-dark text-curry-maroon px-4 py-2 rounded-lg text-sm font-medium hover:bg-curry-peach transition' %>
-      <% end %>
-    </div>
-  <% end %>
+<div class="mb-10">
+  <h1 class="font-display text-5xl text-burgundy">Your kitchen</h1>
+  <p class="mt-2 text-clay">Everything you've saved, in one cozy place.</p>
 </div>
+
+<%= form_tag web_recipes_path, method: :get, class: 'bg-cream-light rounded-3xl shadow-sm border border-peach-soft/60 p-5 flex flex-wrap gap-4 items-end mb-8' do %>
+  <div class="flex-1 min-w-[200px]">
+    <label class="block text-xs uppercase tracking-widest text-clay mb-2">Search</label>
+    <input type="text" name="term" value="<%= params[:term] %>" placeholder="Search recipes…"
+           class="block w-full rounded-full border border-peach-soft bg-cream px-4 py-2 text-sm text-burgundy placeholder-clay-light focus:border-burgundy focus:ring-2 focus:ring-peach focus:outline-none transition">
+  </div>
+  <div class="min-w-[160px]">
+    <label class="block text-xs uppercase tracking-widest text-clay mb-2">Category</label>
+    <select name="category" class="block w-full rounded-full border border-peach-soft bg-cream px-4 py-2 text-sm text-burgundy focus:border-burgundy focus:ring-2 focus:ring-peach focus:outline-none transition">
+      <option value="">All categories</option>
+      <% @categories.each do |cat| %>
+        <option value="<%= cat.id %>" <%= 'selected' if params[:category] == cat.id.to_s %>><%= cat.name %></option>
+      <% end %>
+    </select>
+  </div>
+  <div class="min-w-[160px]">
+    <label class="block text-xs uppercase tracking-widest text-clay mb-2">Dietary</label>
+    <select name="dietary_preference" class="block w-full rounded-full border border-peach-soft bg-cream px-4 py-2 text-sm text-burgundy focus:border-burgundy focus:ring-2 focus:ring-peach focus:outline-none transition">
+      <option value="">All</option>
+      <% @dietary_preferences.each do |dp| %>
+        <option value="<%= dp.id %>" <%= 'selected' if params[:dietary_preference] == dp.id.to_s %>><%= dp.name.capitalize %></option>
+      <% end %>
+    </select>
+  </div>
+  <div class="flex gap-2">
+    <button type="submit" class="rounded-full bg-burgundy text-cream-light px-5 py-2 text-sm font-semibold hover:bg-burgundy-soft transition shadow-md shadow-burgundy/20">
+      Filter
+    </button>
+    <% if params[:term].present? || params[:category].present? || params[:dietary_preference].present? %>
+      <%= link_to 'Clear', web_recipes_path, class: 'rounded-full bg-peach text-burgundy px-5 py-2 text-sm font-semibold hover:bg-peach-soft transition' %>
+    <% end %>
+  </div>
+<% end %>
 
 <% if @recipes.any? %>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <% @recipes.each do |recipe| %>
-      <%= link_to web_recipe_path(recipe), class: 'group block bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition' do %>
-        <div class="aspect-[4/3] overflow-hidden">
+      <%= link_to web_recipe_path(recipe), class: 'group block bg-cream-light rounded-3xl border border-peach-soft/60 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition' do %>
+        <div class="aspect-[4/3] overflow-hidden bg-peach-soft/40">
           <% if recipe.photo.attached? %>
             <%= image_tag recipe.photo, class: 'w-full h-full object-cover group-hover:scale-105 transition duration-300' %>
           <% else %>
             <img src="/yellow-missing.png" alt="Recipe placeholder" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
           <% end %>
         </div>
-        <div class="p-4">
-          <h2 class="font-semibold text-curry-maroon group-hover:text-curry-orange transition truncate"><%= recipe.title %></h2>
-          <div class="flex items-center gap-2 mt-2 flex-wrap">
+        <div class="p-5">
+          <h2 class="font-display text-2xl text-burgundy group-hover:text-burgundy-soft transition truncate leading-none"><%= recipe.title %></h2>
+          <div class="flex items-center gap-2 mt-3 flex-wrap">
             <% if recipe.dietary_preference %>
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-curry-cream text-curry-maroon"><%= recipe.dietary_preference.name.capitalize %></span>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-peach text-burgundy"><%= recipe.dietary_preference.name.capitalize %></span>
             <% end %>
             <% recipe.categories.first(2).each do |cat| %>
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-curry-peach/50 text-curry-maroon"><%= cat.name %></span>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-peach-soft/60 text-burgundy"><%= cat.name %></span>
             <% end %>
           </div>
           <% if recipe.time.present? %>
-            <p class="text-xs text-curry-maroon/50 mt-2"><%= recipe.time %></p>
+            <p class="text-xs text-clay mt-3"><%= recipe.time %></p>
           <% end %>
         </div>
       <% end %>
@@ -68,12 +69,14 @@
   <%= render 'web/shared/pagination' %>
 <% else %>
   <div class="text-center py-20">
-    <svg class="mx-auto w-16 h-16 text-curry-peach mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-    </svg>
-    <p class="text-curry-maroon/60 text-lg">No recipes found.</p>
+    <div class="inline-flex items-center justify-center h-20 w-20 rounded-full bg-peach-soft/60 mb-5">
+      <svg class="w-10 h-10 text-burgundy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+      </svg>
+    </div>
+    <p class="text-burgundy text-xl font-display">No recipes found.</p>
     <% if params[:term].present? || params[:category].present? || params[:dietary_preference].present? %>
-      <p class="text-curry-maroon/40 mt-1"><%= link_to 'Clear filters', web_recipes_path, class: 'text-curry-orange hover:underline' %></p>
+      <p class="text-clay mt-2"><%= link_to 'Clear filters', web_recipes_path, class: 'text-burgundy underline decoration-peach hover:decoration-burgundy' %></p>
     <% end %>
   </div>
 <% end %>

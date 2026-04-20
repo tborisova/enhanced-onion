@@ -1,11 +1,11 @@
 <% if @pagy.pages > 1 %>
-  <div class="mt-8">
+  <div class="mt-10">
     <style>
-      .pagy.series-nav { display: flex; gap: 0.25rem; justify-content: center; align-items: center; }
-      .pagy.series-nav a { padding: 0.5rem 0.75rem; border-radius: 0.5rem; font-size: 0.875rem; color: #480D2A; text-decoration: none; border: 1px solid #ffd5bb; background: white; }
-      .pagy.series-nav a:hover:not([aria-disabled]) { background-color: #FFF5E6; border-color: #ED744D; }
-      .pagy.series-nav a[aria-disabled="true"] { color: #c4a999; cursor: default; }
-      .pagy.series-nav a[aria-current="page"] { background-color: #ED744D; color: #ffffff; border-color: #ED744D; font-weight: 600; cursor: default; }
+      .pagy.series-nav { display: flex; gap: 0.3rem; justify-content: center; align-items: center; flex-wrap: wrap; }
+      .pagy.series-nav a { padding: 0.5rem 0.9rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; color: #400F29; text-decoration: none; border: 1px solid rgba(255, 213, 187, 0.6); background: #FFF5E6; transition: all 0.15s; }
+      .pagy.series-nav a:hover:not([aria-disabled]) { background-color: #FFDBD1; border-color: #400F29; }
+      .pagy.series-nav a[aria-disabled="true"] { color: #A08C84; cursor: default; background: transparent; border-color: transparent; }
+      .pagy.series-nav a[aria-current="page"] { background-color: #400F29; color: #FFF5E6; border-color: #400F29; cursor: default; }
     </style>
     <%= @pagy.series_nav.html_safe %>
   </div>
