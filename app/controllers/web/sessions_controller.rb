@@ -3,7 +3,7 @@ module Web
     layout 'web'
 
     APPLE_WEB_CLIENT_ID = 'com.curryonmars.web'
-    APPLE_WEB_REDIRECT_URI = 'https://enhanced-onion.onrender.com/web/apple/callback'
+    APPLE_WEB_REDIRECT_URI = 'https://app.curryonmars.com/web/apple/callback'
     APPLE_STATE_TTL = 10.minutes
 
     skip_before_action :verify_authenticity_token, only: [:apple_callback]
