@@ -8,7 +8,7 @@
 <div class="bg-cream-light rounded-3xl shadow-sm border border-peach-soft/60 overflow-hidden">
   <% if @recipe.photo.attached? %>
     <div class="w-full max-h-[420px] overflow-hidden bg-peach-soft/40">
-      <%= image_tag @recipe.photo, class: 'w-full object-cover' %>
+      <%= image_tag @recipe.photo, class: 'w-full object-cover cursor-zoom-in', alt: "Photo of #{@recipe.title}", data: { zoomable: true } %>
     </div>
   <% end %>
 

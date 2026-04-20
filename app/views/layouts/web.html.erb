@@ -67,5 +67,63 @@
 
     <%= yield %>
   </div>
+
+  <style>
+    .zoom-overlay {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999; cursor: zoom-out;
+    }
+    .zoom-overlay img {
+      max-width: 100%; max-height: 100%; object-fit: contain;
+      touch-action: pinch-zoom; transition: transform 0.2s;
+      cursor: zoom-in;
+    }
+    .zoom-overlay img.zoomed { cursor: zoom-out; }
+  </style>
+  <script>
+    (function () {
+      document.addEventListener('click', function (e) {
+        var target = e.target.closest && e.target.closest('[data-zoomable]');
+        if (!target || document.querySelector('.zoom-overlay')) return;
+        e.preventDefault();
+        var overlay = document.createElement('div');
+        overlay.className = 'zoom-overlay';
+        var img = document.createElement('img');
+        img.src = target.currentSrc || target.src;
+        img.alt = target.alt || '';
+        overlay.appendChild(img);
+        document.body.appendChild(overlay);
+        document.body.style.overflow = 'hidden';
+
+        function close() {
+          if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+          document.body.style.overflow = '';
+          document.removeEventListener('keydown', onKey);
+        }
+        function onKey(ev) { if (ev.key === 'Escape') close(); }
+        document.addEventListener('keydown', onKey);
+
+        overlay.addEventListener('click', function (ev) {
+          if (ev.target === overlay) close();
+        });
+        img.addEventListener('click', function (ev) {
+          ev.stopPropagation();
+          if (img.classList.contains('zoomed')) {
+            img.style.transform = '';
+            img.style.transformOrigin = '';
+            img.classList.remove('zoomed');
+          } else {
+            var rect = img.getBoundingClientRect();
+            var x = ((ev.clientX - rect.left) / rect.width) * 100;
+            var y = ((ev.clientY - rect.top) / rect.height) * 100;
+            img.style.transformOrigin = x + '% ' + y + '%';
+            img.style.transform = 'scale(2)';
+            img.classList.add('zoomed');
+          }
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
