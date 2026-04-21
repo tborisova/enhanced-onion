@@ -3,7 +3,7 @@ module Web
     layout 'web'
 
     APPLE_WEB_CLIENT_ID = 'com.curryonmars.web'
-    APPLE_WEB_REDIRECT_URI = 'https://app.curryonmars.com/web/apple/callback'
+    APPLE_WEB_REDIRECT_URI = 'https://app.curryonmars.com/apple/callback'
     APPLE_STATE_TTL = 10.minutes
 
     skip_before_action :verify_authenticity_token, only: [:apple_callback]
@@ -24,7 +24,7 @@ module Web
         WebMailer.magic_link(user).deliver_later
       end
 
-      redirect_to web_login_path, notice: 'If that email is registered, a login link has been sent.'
+      redirect_to sign_in_path, notice: 'If that email is registered, a login link has been sent.'
     end
 
     def callback
@@ -33,21 +33,21 @@ module Web
       if user&.login_token_valid?
         user.clear_login_token!
         session[:web_user_id] = user.id
-        redirect_to web_recipes_path, notice: 'Logged in successfully.'
+        redirect_to root_path, notice: 'Logged in successfully.'
       else
-        redirect_to web_login_path, alert: 'Invalid or expired link.'
+        redirect_to sign_in_path, alert: 'Invalid or expired link.'
       end
     end
 
     def apple_callback
-      return redirect_to web_login_path, alert: 'Apple sign in is not available.' unless apple_sign_in_enabled?
+      return redirect_to sign_in_path, alert: 'Apple sign in is not available.' unless apple_sign_in_enabled?
 
       unless verify_apple_state(params[:state])
-        return redirect_to web_login_path, alert: 'Sign in request expired. Please try again.'
+        return redirect_to sign_in_path, alert: 'Sign in request expired. Please try again.'
       end
 
       identity_token = params[:id_token]
-      return redirect_to web_login_path, alert: 'Missing identity token.' if identity_token.blank?
+      return redirect_to sign_in_path, alert: 'Missing identity token.' if identity_token.blank?
 
       verification = AppleAuthService.new(
         identity_token: identity_token,
@@ -56,29 +56,29 @@ module Web
 
       unless verification.success?
         Rails.logger.error("Apple web auth failed: #{verification.error}")
-        return redirect_to web_login_path, alert: 'Apple sign in failed.'
+        return redirect_to sign_in_path, alert: 'Apple sign in failed.'
       end
 
       user = find_or_create_apple_user(verification, params[:user])
 
       if user.suspended
-        redirect_to web_login_path, alert: 'Account is suspended.'
+        redirect_to sign_in_path, alert: 'Account is suspended.'
       else
         session[:web_user_id] = user.id
-        redirect_to web_recipes_path, notice: 'Logged in successfully.'
+        redirect_to root_path, notice: 'Logged in successfully.'
       end
     end
 
     def destroy
       session.delete(:web_user_id)
-      redirect_to web_login_path, notice: 'Logged out.'
+      redirect_to sign_in_path, notice: 'Logged out.'
     end
 
     private
 
     def redirect_if_authenticated
       if User.exists?(id: session[:web_user_id], suspended: false)
-        redirect_to web_recipes_path
+        redirect_to root_path
       end
     end
 

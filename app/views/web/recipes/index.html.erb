@@ -3,7 +3,7 @@
   <p class="mt-2 text-clay">Everything you've saved, in one cozy place.</p>
 </div>
 
-<%= form_tag web_recipes_path, method: :get, class: 'bg-cream-light rounded-3xl shadow-sm border border-peach-soft/60 p-5 flex flex-wrap gap-4 items-end mb-8' do %>
+<%= form_tag recipes_path, method: :get, class: 'bg-cream-light rounded-3xl shadow-sm border border-peach-soft/60 p-5 flex flex-wrap gap-4 items-end mb-8' do %>
   <div class="flex-1 min-w-[200px]">
     <label class="block text-xs uppercase tracking-widest text-clay mb-2">Search</label>
     <input type="text" name="term" value="<%= params[:term] %>" placeholder="Search recipes…"
@@ -32,7 +32,7 @@
       Filter
     </button>
     <% if params[:term].present? || params[:category].present? || params[:dietary_preference].present? %>
-      <%= link_to 'Clear', web_recipes_path, class: 'rounded-full bg-peach text-burgundy px-5 py-2 text-sm font-semibold hover:bg-peach-soft transition' %>
+      <%= link_to 'Clear', recipes_path, class: 'rounded-full bg-peach text-burgundy px-5 py-2 text-sm font-semibold hover:bg-peach-soft transition' %>
     <% end %>
   </div>
 <% end %>
@@ -40,7 +40,7 @@
 <% if @recipes.any? %>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <% @recipes.each do |recipe| %>
-      <%= link_to web_recipe_path(recipe), class: 'group block bg-cream-light rounded-3xl border border-peach-soft/60 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition' do %>
+      <%= link_to recipe_path(recipe), class: 'group block bg-cream-light rounded-3xl border border-peach-soft/60 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition' do %>
         <div class="aspect-[4/3] overflow-hidden bg-peach-soft/40">
           <% if recipe.photo.attached? %>
             <%= image_tag recipe.photo, class: 'w-full h-full object-cover group-hover:scale-105 transition duration-300' %>
@@ -76,7 +76,7 @@
     </div>
     <p class="text-burgundy text-xl font-display">No recipes found.</p>
     <% if params[:term].present? || params[:category].present? || params[:dietary_preference].present? %>
-      <p class="text-clay mt-2"><%= link_to 'Clear filters', web_recipes_path, class: 'text-burgundy underline decoration-peach hover:decoration-burgundy' %></p>
+      <p class="text-clay mt-2"><%= link_to 'Clear filters', recipes_path, class: 'text-burgundy underline decoration-peach hover:decoration-burgundy' %></p>
     <% end %>
   </div>
 <% end %>

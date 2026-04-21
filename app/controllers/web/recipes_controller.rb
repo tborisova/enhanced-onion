@@ -25,7 +25,7 @@ module Web
                   .includes(:categories, :dietary_preference, recipe_ingredients: :ingredient)
                   .find_by(id: params[:id])
 
-      redirect_to web_recipes_path, alert: 'Recipe not found.' unless @recipe
+      redirect_to root_path, alert: 'Recipe not found.' unless @recipe
     end
   end
 end

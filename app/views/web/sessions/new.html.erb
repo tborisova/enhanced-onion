@@ -5,7 +5,7 @@
   </div>
 
   <div class="bg-cream-light rounded-3xl shadow-xl shadow-burgundy/5 p-8 border border-peach-soft/60">
-    <%= form_tag web_login_path, method: :post, class: 'space-y-5' do %>
+    <%= form_tag sign_in_path, method: :post, class: 'space-y-5' do %>
       <div>
         <label for="email" class="block text-xs uppercase tracking-widest text-clay mb-2">Email</label>
         <input type="email" name="email" id="email" required placeholder="you@kitchen.com"

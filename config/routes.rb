@@ -8,14 +8,13 @@ Rails.application.routes.draw do
 
   post '/magic_link', to: 'magic_links#create'
 
-  namespace :web do
-    get 'login', to: 'sessions#new'
-    post 'login', to: 'sessions#create'
-    get 'callback', to: 'sessions#callback'
-    post 'apple/callback', to: 'sessions#apple_callback'
-    delete 'logout', to: 'sessions#destroy'
-    resources :recipes, only: [:index, :show]
-  end
+  root to: 'web/recipes#index'
+  get '/sign-in', to: 'web/sessions#new', as: :sign_in
+  post '/sign-in', to: 'web/sessions#create'
+  get '/callback', to: 'web/sessions#callback', as: :sign_in_callback
+  post '/apple/callback', to: 'web/sessions#apple_callback', as: :apple_callback
+  delete '/logout', to: 'web/sessions#destroy', as: :logout
+  resources :recipes, only: [:index, :show], controller: 'web/recipes'
 
   namespace :admin do
     get '/', to: 'dashboard#index', as: :dashboard
