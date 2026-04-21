@@ -24,7 +24,7 @@ module Web
         WebMailer.magic_link(user).deliver_later
       end
 
-      redirect_to sign_in_path, notice: 'If that email is registered, a login link has been sent.'
+      redirect_to sign_in_path, notice: "Check your inbox — if we have an account for that email, a sign-in link is on its way. It may take a minute, and don't forget to check spam."
     end
 
     def callback
