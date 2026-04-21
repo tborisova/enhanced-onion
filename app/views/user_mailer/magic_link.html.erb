@@ -1,1 +1,28 @@
-<%= @login_url %>
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; color: #1a1a1a; max-width: 520px; margin: 0 auto; padding: 24px; line-height: 1.5;">
+  <p style="font-size: 16px;">Hi<%= @user.name.present? ? " #{@user.name}" : '' %>,</p>
+
+  <p style="font-size: 16px;">Tap the button below to sign in to the Curry on Mars app.</p>
+
+  <p style="margin: 32px 0;">
+    <a href="<%= @login_url %>"
+       style="display: inline-block; background-color: #d64545; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-size: 16px; font-weight: 600;">
+      Open Curry on Mars
+    </a>
+  </p>
+
+  <p style="font-size: 14px; color: #555;">
+    If the button doesn't open the app, copy and paste this link into your browser on the device where the app is installed:
+  </p>
+
+  <p style="font-size: 13px; word-break: break-all; color: #555;">
+    <a href="<%= @login_url %>" style="color: #555;"><%= @login_url %></a>
+  </p>
+
+  <p style="font-size: 14px; color: #555; margin-top: 24px;">
+    Please open this email on your phone &mdash; the link will only work on the device where the Curry on Mars app is installed.
+  </p>
+
+  <p style="font-size: 14px; color: #555;">This link expires in 15 minutes.</p>
+
+  <p style="font-size: 14px; color: #555;">If you didn't request this, you can safely ignore this email.</p>
+</div>
