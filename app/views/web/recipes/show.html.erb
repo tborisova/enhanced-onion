@@ -23,7 +23,7 @@
       <% end %>
       <% @recipe.categories.each do |cat| %>
         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-peach-soft/60 text-burgundy">
-          <%= cat.name %>
+          <%= cat.name.capitalize %>
         </span>
       <% end %>
       <% if @recipe.time.present? %>
