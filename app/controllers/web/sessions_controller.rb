@@ -17,14 +17,31 @@ module Web
     end
 
     def create
-      user = User.find_by(email: params[:email], suspended: false)
+      email = params[:email].to_s
+      user = User.find_by(email: email)
 
-      if user
+      if user && !user.suspended
         user.generate_login_token!
         WebMailer.magic_link(user).deliver_later
+      elsif user.nil?
+        password = Devise.friendly_token
+        plan = Plan.find_by(is_free: false) || Plan.find_by_name('Standard plan')
+        new_user = User.new(
+          email: email,
+          password: password,
+          password_confirmation: password,
+          name: 'User',
+          plan_id: plan.id,
+          missing_name: true
+        )
+
+        if new_user.save
+          new_user.generate_login_token!
+          WebMailer.magic_link(new_user).deliver_later
+        end
       end
 
-      redirect_to sign_in_path, notice: "Check your inbox — if we have an account for that email, a sign-in link is on its way. It may take a minute, and don't forget to check spam."
+      redirect_to sign_in_path, notice: "Check your inbox — a sign-in link is on its way. It may take a minute, and don't forget to check spam."
     end
 
     def callback
