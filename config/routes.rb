@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get '/callback', to: 'web/sessions#callback', as: :sign_in_callback
   post '/apple/callback', to: 'web/sessions#apple_callback', as: :apple_callback
   delete '/logout', to: 'web/sessions#destroy', as: :logout
-  resources :recipes, only: [:index, :show], controller: 'web/recipes'
+  resources :recipes, only: [:index, :show, :new, :create], controller: 'web/recipes'
 
   namespace :admin do
     get '/', to: 'dashboard#index', as: :dashboard

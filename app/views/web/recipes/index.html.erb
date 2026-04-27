@@ -1,6 +1,11 @@
-<div class="mb-10">
-  <h1 class="font-display text-5xl text-burgundy">Your kitchen</h1>
-  <p class="mt-2 text-clay">Everything you've saved, in one cozy place.</p>
+<div class="mb-10 flex items-start justify-between gap-4 flex-wrap">
+  <div>
+    <h1 class="font-display text-5xl text-burgundy">Your kitchen</h1>
+    <p class="mt-2 text-clay">Everything you've saved, in one cozy place.</p>
+  </div>
+  <%= link_to new_recipe_path, class: 'inline-flex items-center gap-2 rounded-full bg-burgundy text-cream-light px-5 py-2.5 text-sm font-semibold hover:bg-burgundy-soft transition shadow-md shadow-burgundy/20' do %>
+    <span aria-hidden="true" class="text-lg leading-none">+</span> New recipe
+  <% end %>
 </div>
 
 <%= form_tag recipes_path, method: :get, class: 'bg-cream-light rounded-3xl shadow-sm border border-peach-soft/60 p-5 flex flex-wrap gap-4 items-end mb-8' do %>
