@@ -1,0 +1,64 @@
+<% limits = @current_user.plan_limits %>
+<% unless limits[:free] %>
+  <% plan = @current_user.plan %>
+  <% rows = [
+    {
+      label: 'Recipes saved',
+      used: plan.recipes_quota - limits[:remaining_recipes_count],
+      total: plan.recipes_quota,
+      reached: limits[:recipes_quota_reached]
+    },
+    {
+      label: 'Photos pinned',
+      used: plan.images_quota - limits[:remaining_images_count],
+      total: plan.images_quota,
+      reached: limits[:images_quota_reached]
+    }
+  ] %>
+  <% any_reached = rows.any? { |r| r[:reached] } %>
+
+  <details class="group mb-8 bg-cream-light rounded-3xl shadow-sm border border-peach-soft/60 overflow-hidden">
+    <summary class="list-none cursor-pointer p-5 sm:p-6 flex items-center justify-between gap-4 hover:bg-peach-soft/20 transition [&::-webkit-details-marker]:hidden">
+      <div class="flex items-center gap-3 min-w-0">
+        <span class="text-xs uppercase tracking-widest text-clay">Pantry</span>
+        <% if any_reached %>
+          <span class="text-xs italic text-burgundy-soft truncate">— pantry's full</span>
+        <% end %>
+      </div>
+      <div class="flex items-center gap-3 shrink-0">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-peach text-burgundy"><%= plan.name %></span>
+        <svg class="w-4 h-4 text-clay transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
+    </summary>
+
+    <div class="px-5 sm:px-6 pb-5 sm:pb-6 -mt-1">
+      <div class="space-y-4">
+        <% rows.each do |row| %>
+          <% pct = row[:total].to_i.zero? ? 0 : ((row[:used].to_f / row[:total]) * 100).clamp(0, 100) %>
+          <% near_full = pct >= 80 %>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+            <span class="font-display text-lg text-burgundy sm:w-40 shrink-0 leading-none"><%= row[:label] %></span>
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+              <div class="flex-1 h-1.5 rounded-full bg-peach-soft/60 overflow-hidden">
+                <div class="h-full rounded-full <%= near_full ? 'bg-burgundy-soft' : 'bg-burgundy' %> transition-all" style="width: <%= pct %>%"></div>
+              </div>
+              <% if row[:reached] %>
+                <span class="text-sm italic text-burgundy-soft w-28 text-right shrink-0">Pantry's full</span>
+              <% else %>
+                <span class="w-24 text-right shrink-0 tabular-nums leading-none">
+                  <span class="font-display text-lg text-burgundy"><%= row[:used] %></span><span class="text-clay text-sm"> / <%= row[:total] %></span>
+                </span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <p class="mt-5 pt-4 border-t border-peach-soft/60 text-xs text-clay italic leading-relaxed">
+        Need a bigger pantry? Billing's still simmering on the stove &mdash; upgrades are on the way soon.
+      </p>
+    </div>
+  </details>
+<% end %>
